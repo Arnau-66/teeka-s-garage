@@ -1,8 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-starships-list',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './starships-list.html',
   styleUrl: './starships-list.scss'
 })
