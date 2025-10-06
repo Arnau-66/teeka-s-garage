@@ -1,1 +1,27 @@
-<p>starships-list works!</p>
+<section class="starships-list">
+    <h2>Starships</h2>
+
+    @if (loading()) {
+         <p aria-live="polite">Loading starships</p>
+    }
+    
+    @else if (error()) {
+        <div class="error" role="alert" aria-live="assertlive">
+            <p>Ooops! {{ error() }} </p>
+            <button type="button" (click)="fetchPage(1)">Retry</button>
+        </div>
+    }
+
+    @else {
+        <ul class="starships">
+            @for (ship of starships(); track ship.url) {
+                <li class="starship-item">
+                    <strong class="ship-name">{{ship.name}}</strong>
+                    <span class="ship-model">— {{ ship.model }}</span>
+                </li>
+            } @emty {
+                <li class="emty">No starships found.</li>
+            }
+        </ul>
+    }
+</section>
