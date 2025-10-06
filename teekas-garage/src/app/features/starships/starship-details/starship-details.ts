@@ -1,13 +1,13 @@
 import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { StarshipsService } from '../../../core/services/starships.service';
 import { StarshipDetailsItem } from '../../../core/models/starships';
 
 @Component({
   selector: 'app-starship-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './starship-details.html',
   styleUrl: './starship-details.scss'
 })
