@@ -1,18 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+import { StarshipsListComponent } from './starships-list';
+import { StarshipsService } from '../../../core/services/starships.service';
+import { StarshipsResponse } from '../../../core/models/starships';
 
-import { StarshipsList } from './starships-list';
+describe('StarshipsListComponent (smoke with mocked service)', () => {
+  let component: StarshipsListComponent;
+  let fixture: ComponentFixture<StarshipsListComponent>;
 
-describe('StarshipsList', () => {
-  let component: StarshipsList;
-  let fixture: ComponentFixture<StarshipsList>;
+  const sampleResponse: StarshipsResponse = {
+    count: 0,
+    next: null,
+    previous: null,
+    results: []
+  };
+
+  const mockStarshipsService: Partial<StarshipsService> = {
+    getStarships: () => of(sampleResponse)
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StarshipsList]
-    })
-    .compileComponents();
+      imports: [StarshipsListComponent],
+      providers: [{provide: StarshipsService, useValue: mockStarshipsService}]
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(StarshipsList);
+    fixture = TestBed.createComponent(StarshipsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
