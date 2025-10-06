@@ -16,8 +16,14 @@
         <ul class="starships">
             @for (ship of starships(); track ship.url) {
                 <li class="starship-item">
-                    <strong class="ship-name">{{ship.name}}</strong>
-                    <span class="ship-model">— {{ ship.model }}</span>
+                    <a
+                        class="ship-link"
+                        [routerLink]="['/starships', idFromUrl(ship.url)]"
+                        aria-label="View details for {{ ship.name }}"
+                    >
+                        <strong class="ship-name">{{ ship.name }}</strong>
+                        <span class="ship-model">— {{ ship.model }}</span>
+                    </a>
                 </li>
             } @empty {
                 <li class="empty">No starships found.</li>
