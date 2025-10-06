@@ -2,11 +2,11 @@
     <h2>Starships</h2>
 
     @if (loading()) {
-         <p aria-live="polite">Loading starships</p>
+         <p aria-live="polite">Loading starships...</p>
     }
     
     @else if (error()) {
-        <div class="error" role="alert" aria-live="assertlive">
+        <div class="error" role="alert" aria-live="assertive">
             <p>Ooops! {{ error() }} </p>
             <button type="button" (click)="fetchPage(1)">Retry</button>
         </div>
@@ -19,8 +19,8 @@
                     <strong class="ship-name">{{ship.name}}</strong>
                     <span class="ship-model">— {{ ship.model }}</span>
                 </li>
-            } @emty {
-                <li class="emty">No starships found.</li>
+            } @empty {
+                <li class="empty">No starships found.</li>
             }
         </ul>
     }
