@@ -10,3 +10,37 @@ export interface StarshipsResponse {
     previous: string | null;
     results: StarshipsListItem[];
 }
+
+export interface StarshipDetailsResponse {
+    name: string;
+    model: string;
+    manufacturer: string;
+    cost_in_credits: string;
+    length: string;
+    max_atmosphering_speed: string;
+    crew: string;
+    passengers: string;
+    cargo_capacity: string;
+    consumables:string;
+    hyperdrive_rating: string;
+    MGLT: string;
+    starship_class: string;
+    url: string;
+}
+
+export interface StarshipDetailsItem {
+    id: number;
+    name: string;
+    model: string;
+    manufacturer: string;
+    costInCredits: number | null;
+    length: number | null;
+    maxAtmospheringSpeed: number | null;
+    crew: string;
+    passengers: string;
+    cargoCapacity: string;
+    consumables: string;
+    hyperdriveRating: string;
+    mglt: string;
+    starshipClass: string;   
+}
