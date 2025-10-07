@@ -21,8 +21,15 @@
                         [routerLink]="['/starships', idFromUrl(ship.url)]"
                         aria-label="View details for {{ ship.name }}"
                     >
-                        <strong class="ship-name">{{ ship.name }}</strong>
-                        <span class="ship-model">— {{ ship.model }}</span>
+                        <span class="duo-line">
+                            <strong class="ship-name">{{ ship.name }}</strong>
+                            <span class="aurebesh" aria-hidden="true">{{ship.name}} </span>
+                        </span>
+
+                        <span class="duo-line">
+                            <span class="ship-model"> — {{ ship.model }}</span>
+                            <span class="aurebesh" aria-hidden="true">— {{ ship.model }}</span>
+                        </span>
                     </a>
                 </li>
             } @empty {

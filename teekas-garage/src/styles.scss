@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: "Aurebesh";
+  src:
+    url("/fonts/aurebesh/Aurek-Besh.woff2") format("woff2"),
+    url("/fonts/aurebesh/Aurek-Besh.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.aurebesh {
+    font-family: 'Aurebesh';
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.1;
+    opacity: 0.85;
+}
+
+.duo-line {
+    display: grid;
+    gap: 2px;
+}
+
+.duo-line .aurebesh {
+    font-size: 0.9em;
+}
