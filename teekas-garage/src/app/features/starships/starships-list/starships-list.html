@@ -1,6 +1,12 @@
 <section class="starships-list">
     <h2>Starships</h2>
 
+    <div class="back-orbit">
+        <a routerLink="/" class="orbit-button" aria-label="Return to orbit">
+            ⬅ Back to Orbit
+        </a>
+    </div>
+
     @if (loading()) {
          <p aria-live="polite">Loading starships...</p>
     }
