@@ -1,0 +1,52 @@
+.pager {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-block: .5rem 1rem;
+    pointer-events: auto;
+}
+
+.starships {
+    position: relative;
+    z-index: 0;
+    margin-bottom: 1rem;
+    overflow: visible;
+}
+
+.starships.horizontal-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+}
+
+.starship-item .ship-link {
+    display: grid;
+}
+
+.horizontal-scroll {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: .5rem 0 1rem;
+    scroll-snap-type: x proximity;
+}
+
+.starship-item {
+    min-width: 220px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: .75rem;
+    background: #fff;
+}
+
+.ship-link {
+    display: grid;
+    gap: .25rem;
+    text-decoration: none;
+    color: inherit;
+}

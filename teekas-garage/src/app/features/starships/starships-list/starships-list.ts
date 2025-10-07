@@ -17,7 +17,12 @@ export class StarshipsListComponent implements OnInit {
   error = signal<string | null>(null);
   starships = signal<StarshipsListItem[]>([]);
 
+  currentPage = signal<number>(1);
+  hasNext = signal<boolean>(false);
+  hasPrev = signal<boolean>(false);
+
   private starshipsService = inject(StarshipsService);
+
   ngOnInit(): void {
     this.fetchPage(1);
   }
@@ -29,6 +34,9 @@ export class StarshipsListComponent implements OnInit {
     this.starshipsService.getStarships(page).subscribe({
       next: (res: StarshipsResponse) => {
         this.starships.set(res.results);
+        this.currentPage.set(page);
+        this.hasNext.set(!!res.next);
+        this.hasPrev.set(!!res.previous);
       },
       error: (err: unknown) => {
         const msg = err instanceof Error ? err.message : 'Unexpected error';
@@ -38,6 +46,14 @@ export class StarshipsListComponent implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  nextPage(): void {
+    if(this.hasNext()) this.fetchPage(this.currentPage() + 1);
+  }
+
+  prevPage(): void {
+    if (this.hasPrev()) this.fetchPage(this.currentPage() - 1);
   }
 
   idFromUrl(url: string): number {

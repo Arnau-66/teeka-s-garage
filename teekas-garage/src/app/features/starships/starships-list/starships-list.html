@@ -13,6 +13,7 @@
     }
 
     @else {
+        
         <ul class="starships">
             @for (ship of starships(); track ship.url) {
                 <li class="starship-item">
@@ -36,5 +37,14 @@
                 <li class="empty">No starships found.</li>
             }
         </ul>
+
+        <div class="pager bottom">
+            <button type="button" (click)="prevPage()" [disabled]="!hasPrev() || loading()">← Prev</button>
+            <span>Page {{ currentPage() }}</span>
+            <button type="button" (click)="nextPage()" [disabled]="!hasNext() || loading()">Next →</button>
+        </div>
     }
+
+
+
 </section>
