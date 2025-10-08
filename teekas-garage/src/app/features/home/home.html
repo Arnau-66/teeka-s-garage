@@ -2,7 +2,30 @@
   <h1>Welcome to Teeka’s Garage</h1>
   <p>Explore the Star Wars starships database.</p>
 
-  <a class="cta" routerLink="/login" aria-label="Go to starships list">
+  <button class="cta" type="button" (click)="openLogin()" aria-haspopup="dialog" aria-controls="loginDialog">
     Enter Starships
-  </a>
+  </button>
 </section>
+
+@if (showLogin()) {
+  <div class="overlay" role="presentation" (click)="closeLogin()">
+    <div
+      class="dialog"
+      role="dialog"
+      id="loginDialog"
+      aria-modal="true"
+      aria-labelledby="loginTitle"
+      aria-describedby="loginDesc"
+      (click)="$event.stopPropagation()"
+      tabindex="-1" >
+
+      <header class="dialog_header">
+        <h2 id="loginTitle">Imperial Chekpoint</h2>
+        <p id="loginDesc">Provide your creentials to proceed to the starships registry.</p>
+        <button class="dialog_close" type="button" (click)="closeLogin()" aria-label="Close dialog">X</button>
+      </header>
+
+      <app-login></app-login>
+    </div>
+  </div>
+}
