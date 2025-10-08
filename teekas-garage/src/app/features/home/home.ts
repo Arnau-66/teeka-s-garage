@@ -14,8 +14,8 @@ import { LoginComponent } from '../auth/login/login';
 export class HomeComponent {
   showLogin = signal(false);
 
-  openLogin() {this.showLogin.set(true);}
-  closeLogin() {this.showLogin.set(false);}
+  openLogin()  { this.showLogin.set(true); document.body.style.overflow = 'hidden'; }
+  closeLogin() { this.showLogin.set(false); document.body.style.overflow = ''; }
 
   @HostListener('document:keydown.escape')
   onEsc(){

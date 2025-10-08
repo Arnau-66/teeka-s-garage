@@ -1,0 +1,127 @@
+/* ====== HOME (fondo) ====== */
+.home {                         /* Contenedor de la pantalla Home */
+  min-height: 100dvh;           /* Altura mínima: toda la ventana (soporta móviles con barras) */
+  display: grid;                /* Usamos grid para centrar vertical/horizontal si quieres */
+  place-content: center;        /* Centra el contenido de grid (vertical y horizontal) */
+  gap: 1rem;                    /* Espacio entre título, texto y botón */
+  text-align: center;           /* Alinea el texto al centro */
+  padding: 2rem;                /* Respira un poco en pantallas pequeñas */
+}
+
+/* Botón de “Enter Starships” (estilos mínimos para que parezca CTA) */
+.cta {
+  display: inline-block;        /* Deja que tenga padding y aspecto de botón */
+  padding: .75rem 1.25rem;      /* Zona clicable cómoda */
+  border-radius: .75rem;        /* Bordes redondeados */
+  border: none;                 /* Sin borde por defecto */
+  background: #2d6cdf;          /* Color base del botón */
+  color: #fff;                  /* Texto en blanco */
+  font-weight: 600;             /* Un poco más grueso */
+  text-decoration: none;        /* Quita subrayado si fuese <a> */
+  cursor: pointer;              /* Cursor de botón */
+  transition: transform .12s;   /* Pequeña animación al pasar el ratón */
+}
+.cta:hover { transform: translateY(-1px); }     /* Eleva 1px al hover */
+.cta:active { transform: translateY(0); }       /* “Pulsa” al hacer click */
+
+/* ====== MODAL OVERLAY ====== */
+.overlay {                      /* Capa que cubre toda la pantalla */
+  position: fixed;              /* Fija sobre la ventana, no hace scroll con la página */
+  inset: 0;                     /* Atajos para top/right/bottom/left: 0 */
+  z-index: 1000;                /* Alta prioridad para quedar por encima del resto */
+  display: grid;                /* Grid para centrar el diálogo fácilmente */
+  place-items: center;          /* Centra el cuadro del diálogo */
+  background: rgba(0,0,0,.55);  /* Fondo semitransparente (oscurece el home) */
+  backdrop-filter: blur(2px);   /* Desenfoque sutil del fondo (si el navegador lo soporta) */
+  -webkit-backdrop-filter: blur(2px); /* Prefijo para Safari */
+}
+
+/* ====== DIALOG (contenedor del login) ====== */
+.dialog {                       /* Caja del modal */
+  width: min(92vw, 480px);      /* Responsive: hasta 480px, o 92% de la ventana en móviles */
+  max-height: 86dvh;            /* Evita que sea más alto que la ventana */
+  overflow: auto;               /* Si el contenido crece, permite scroll interno */
+  background: #0b0d10;          /* Fondo oscuro “espacial” */
+  color: #e6eaef;               /* Texto claro para contraste */
+  border-radius: 16px;          /* Bordes redondeados agradables */
+  box-shadow: 0 12px 40px rgba(0,0,0,.45); /* Sombra profunda para flotarlo */
+  padding: 1rem 1rem 1.25rem;   /* Relleno interno */
+  position: relative;           /* Para posicionar el botón de cierre dentro */
+  outline: none;                /* Evita borde azul al hacer foco; lo manejaremos si hace falta */
+}
+
+/* Cabecera del diálogo: título + descripción + botón cerrar */
+.dialog__header {
+  display: grid;                /* Grid sencillo para apilar elementos */
+  gap: .25rem;                  /* Pequeña separación entre título y descripción */
+  padding-right: 2rem;          /* Deja hueco para el botón ✕ de la esquina */
+  margin-bottom: .75rem;        /* Espacio respecto al formulario */
+}
+.dialog__header h2 {
+  margin: 0;                    /* Quitamos márgenes por defecto */
+  font-size: 1.25rem;           /* Tamaño del título del modal */
+  line-height: 1.2;             /* Altura de línea compacta */
+}
+.dialog__header p {
+  margin: 0;                    /* Sin margen para separar con el gap del header */
+  opacity: .85;                 /* Un poco más tenue que el título */
+  font-size: .95rem;            /* Ligeramente más pequeño */
+}
+
+/* Botón de cerrar (la cruz) */
+.dialog__close {
+  position: absolute;           /* Posición flotante dentro del .dialog */
+  top: .5rem;                   /* Separación desde arriba */
+  right: .5rem;                 /* Separación desde la derecha */
+  width: 2rem;                  /* Tamaño cómodo para puntero/táctil */
+  height: 2rem;                 /* Idem */
+  display: grid;                /* Centra el símbolo dentro */
+  place-items: center;          /* Centrado perfecto */
+  border: none;                 /* Sin borde por defecto */
+  border-radius: .5rem;         /* Bordes suavizados */
+  background: transparent;      /* Fondo transparente por defecto */
+  color: #e6eaef;               /* Hereda color claro del modal */
+  cursor: pointer;              /* Cursor de botón */
+}
+.dialog__close:hover {
+  background: rgba(255,255,255,.06); /* Sutil fondo al pasar el ratón */
+}
+
+/* ====== Ajustes mínimos del contenido del <app-login> dentro del modal ====== */
+app-login {
+  display: block;               /* Que ocupe todo el ancho disponible del diálogo */
+}
+app-login form {
+  display: grid;                /* Formulario en columnas apiladas */
+  gap: .75rem;                  /* Separación entre campos y botones */
+}
+app-login label {
+  display: grid;                /* Cada label apila el texto y el input */
+  gap: .35rem;                  /* Separación entre etiqueta e input */
+  text-align: left;             /* Alinea a la izquierda dentro del modal */
+}
+app-login input {
+  background: #12151a;          /* Input oscurito a juego */
+  color: #e6eaef;               /* Texto claro */
+  border: 1px solid #232830;    /* Borde sutil */
+  border-radius: .5rem;         /* Bordes redondeados */
+  padding: .6rem .75rem;        /* Relleno interno cómodo */
+}
+app-login .error {
+  color: #ffb4b4;               /* Mensajes de error en rojo suave */
+  font-size: .9rem;             /* Un poco más pequeño que el cuerpo */
+  margin: 0;                    /* Sin márgenes extra */
+}
+app-login button[type="submit"] {
+  background: #2d6cdf;          /* Botón primario del formulario */
+  color: #fff;                  /* Texto blanco */
+  border: none;                 /* Sin borde */
+  border-radius: .6rem;         /* Bordes redondeados */
+  padding: .7rem 1rem;          /* Zona clicable suficiente */
+  cursor: pointer;              /* Cursor de botón */
+  font-weight: 600;             /* Un poco fuerte */
+}
+app-login button[disabled] {
+  opacity: .6;                  /* Botón desactivado: visualmente tenue */
+  cursor: not-allowed;          /* Cursor no permitido */
+}
