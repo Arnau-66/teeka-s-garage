@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { StarshipsListComponent } from './features/starships/starships-list/starships-list';
 import { StarshipDetailsComponent } from './features/starships/starship-details/starship-details';
 import { HomeComponent } from './features/home/home';
+import { LoginComponent } from './features/auth/login/login';
 
 export const routes: Routes = [
     {
@@ -11,6 +12,9 @@ export const routes: Routes = [
     {
         path: 'Home',
         component: HomeComponent,
+    },
+    {
+        path: 'login', component: LoginComponent
     },
     {
         path: 'starships',
