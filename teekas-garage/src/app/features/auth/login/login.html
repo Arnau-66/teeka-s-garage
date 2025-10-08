@@ -1,7 +1,7 @@
 <section class="auth">
     <h2>@if (mode() === 'login') { Login } @else { Register } </h2>
 
-    <form [FormGroup]="form" (ngSubmit)="submit()" novalidate>
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         @if (mode() === 'register'){
             <label>
                 <span>Name</span>

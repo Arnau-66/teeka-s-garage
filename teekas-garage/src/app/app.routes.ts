@@ -5,12 +5,9 @@ import { HomeComponent } from './features/home/home';
 import { LoginComponent } from './features/auth/login/login';
 
 export const routes: Routes = [
+
     {
-        path: '',
-        component: HomeComponent,
-    },
-    {
-        path: 'Home',
+        path: 'home',
         component: HomeComponent,
     },
     {
@@ -26,7 +23,7 @@ export const routes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'starships',
+        redirectTo: 'home',
         pathMatch: 'full'
     }
 
