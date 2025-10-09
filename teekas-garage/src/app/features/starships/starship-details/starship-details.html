@@ -29,6 +29,50 @@
             <li><strong>Class:</strong> {{ starship()?.starshipClass }}</li>
         </ul>
 
+        <p class="ship-image">
+            <img
+                [src]="starship()?.imageUrl"
+                alt="Image of {{ starship()?.name }}"
+                width="360"
+                height="220"
+                loading="lazy"
+                (error)="onImgError($event, '/img/placeholder-ship.png')"
+            />
+        </p>
+
+        <h4>Pilots</h4>
+        @if (starship()?.pilots?.length) {
+            <ul class="pilots">
+                @for (p of starship()!.pilots; track p.id) {
+                <li>
+                    <img
+                    [src]="p.imageUrl"
+                    alt="Photo of {{ p.name }}"
+                    width="48" height="48"
+                    (error)="onImgError($event, '/img/placeholder-pilot.png')"
+                    />
+                    <span>{{ p.name }}</span>
+                </li>
+                }
+            </ul>
+            } @else {
+            <p>No known pilots.</p>
+        }
+
+        <h4>Films</h4>
+        @if (starship()?.films?.length) {
+            <ul class="films">
+                @for (f of starship()!.films; track f.id) {
+                <li>
+                    <strong>Ep {{ f.episode }}</strong> — {{ f.title }}
+                    <small>({{ f.releaseDate }})</small>
+                </li>
+                }
+            </ul>
+            } @else {
+            <p>Not featured in films.</p>
+        }
+
         <p>
             <a routerLink="/starships">⬅ Back to list</a>
         </p>

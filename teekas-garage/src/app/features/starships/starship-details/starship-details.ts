@@ -2,7 +2,12 @@ import { Component, OnInit, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { StarshipsService } from '../../../core/services/starships.service';
-import { StarshipDetailsItem } from '../../../core/models/starships';
+import { StarshipDetailsItem, PilotItem, FilmItem } from '../../../core/models/starships';
+
+type StarshipDetailsVM = StarshipDetailsItem & {
+  pilots: PilotItem[];
+  films: FilmItem[];
+}
 
 @Component({
   selector: 'app-starship-details',
@@ -13,9 +18,12 @@ import { StarshipDetailsItem } from '../../../core/models/starships';
 })
 
 export class StarshipDetailsComponent implements OnInit{
+
+  private vm = signal<StarshipDetailsVM | null>(null);
+
   loading = signal<boolean>(true);
   error = signal<string | null>(null);
-  starship = signal<StarshipDetailsItem | null>(null);
+  starship = () => this.vm();
 
   private route = inject(ActivatedRoute);
   private starshipsService = inject(StarshipsService);
@@ -36,9 +44,9 @@ export class StarshipDetailsComponent implements OnInit{
     this.loading.set(true);
     this.error.set(null);
 
-    this.starshipsService.getStarshipDetails(id).subscribe({
-      next: (details: StarshipDetailsItem) => {
-        this.starship.set(details);     
+    this.starshipsService.getStarshipFullDetails(id).subscribe({
+      next: (details) => {
+        this.vm.set(details);     
       },
       error: (err: unknown) => {
         const msg = err instanceof Error ? err.message : 'Unexpected error';
@@ -48,5 +56,9 @@ export class StarshipDetailsComponent implements OnInit{
         this.loading.set(false);
       }
     });
+  }
+
+  onImgError(ev: Event, fallback: string) {
+    (ev.target as HTMLImageElement).src = fallback;
   }
 }

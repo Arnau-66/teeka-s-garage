@@ -1,8 +1,16 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { catchError, map, Observable, throwError } from "rxjs";
+import { catchError, map, Observable, throwError, forkJoin, of, switchMap } from "rxjs";
 import { environment } from "../../../environments/environment";
-import { StarshipsResponse, StarshipDetailsResponse, StarshipDetailsItem } from "../models/starships";
+import { 
+    StarshipsResponse,
+    StarshipDetailsResponse, 
+    StarshipDetailsItem, 
+    PersonResponse, 
+    FilmResponse, 
+    PilotItem, 
+    FilmItem
+ } from "../models/starships";
 
 function idFromUrl(url: string): number {
     const match = url.match(/\/starships\/(\d+)\/?$/);
@@ -14,7 +22,23 @@ function toNumberOrNull(value: string): number | null {
     return Number.isFinite(n) ? n : null;
 }
 
+function idFromUrlKind(url: string, kind: 'starships' | 'people' | 'films'): number {
+    const m = url.match(new RegExp (`/${kind}/(\\d+)/?$`));
+    return m ? Number(m[1]) : 0;
+}
+
+function shipImageUrl(id: number): string {
+    return `https://starwars-visualguide.com/assets/img/starships/${id}.jpg`;
+}
+
+function characterImageUrl(id: number): string {
+    return `https://starwars-visualguide.com/assets/img/characters/${id}.jpg`;
+}
+
 function mapStarshipDetails(raw: StarshipDetailsResponse): StarshipDetailsItem {
+    
+    const id = idFromUrlKind(raw.url, 'starships');
+    
     return {
         id: idFromUrl(raw.url),
         name: raw.name,
@@ -29,7 +53,11 @@ function mapStarshipDetails(raw: StarshipDetailsResponse): StarshipDetailsItem {
         consumables: raw.consumables,
         hyperdriveRating: raw.hyperdrive_rating,
         mglt: raw.MGLT,
-        starshipClass: raw.starship_class
+        starshipClass: raw.starship_class,
+        pilotUrls: raw.pilots ?? [],
+        filmUrls: raw.films ?? [],
+        imageUrl: shipImageUrl(id),
+
     };    
 }
 
@@ -75,6 +103,54 @@ export class StarshipsService {
                     })    
                 );
             })
+        );
+    }
+
+    getPilotsByUrls(urls: string[]): Observable<PilotItem[]> {
+        if (!urls?.length) return of([] as PilotItem[]);
+
+        return forkJoin(urls.map(u => this.http.get<PersonResponse>(u))).pipe(
+            map(people =>
+                people.map(p => {
+                    const id = idFromUrlKind(p.url, 'people');
+                    return { id, name: p.name, imageUrl: characterImageUrl(id)} as PilotItem;
+                })
+            ),
+            catchError(() => of([] as PilotItem[]))
+        );
+    }
+
+    getFilmsByUrls(urls: string[]): Observable<FilmItem[]> {
+        if (!urls?.length) return of ([] as FilmItem[]);
+
+        return forkJoin(urls.map(u => this.http.get<FilmResponse>(u))).pipe(
+            map(films =>
+                films.map(f => ({
+                    id: idFromUrlKind(f.url, 'films'),
+                    title: f.title,
+                    episode: f.episode_id,
+                    releaseDate: f.release_date,
+                } as FilmItem))
+            ),
+
+            catchError(() => of ([] as FilmItem[]))
+        );
+    }
+
+    getStarshipFullDetails(id: number) {
+        return this.getStarshipDetails(id).pipe(
+            switchMap(details =>
+                forkJoin({
+                    pilots: this.getPilotsByUrls(details.pilotUrls),
+                    films: this.getFilmsByUrls(details.filmUrls),
+                }).pipe(
+                    map(({pilots, films}) => ({
+                        ...details,
+                        pilots,
+                        films,
+                    }))
+                )
+            )
         );
     }
 

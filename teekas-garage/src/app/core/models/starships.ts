@@ -26,6 +26,8 @@ export interface StarshipDetailsResponse {
     MGLT: string;
     starship_class: string;
     url: string;
+    pilots: string[];
+    films: string[];
 }
 
 export interface StarshipDetailsItem {
@@ -42,5 +44,33 @@ export interface StarshipDetailsItem {
     consumables: string;
     hyperdriveRating: string;
     mglt: string;
-    starshipClass: string;   
+    starshipClass: string; 
+    pilotUrls: string[];
+    filmUrls: string[];
+    imageUrl: string;  
+}
+
+export interface PersonResponse {
+    name: string;
+    url: string;
+}
+
+export interface FilmResponse {
+    title: string;
+    episode_id: number;
+    release_date: string;
+    url: string;
+}
+
+export interface PilotItem {
+    id: number;
+    name: string;
+    imageUrl: string;
+}
+
+export interface FilmItem {
+    id: number;
+    title: string;
+    episode: number;
+    releaseDate: string;
 }
