@@ -128,7 +128,7 @@ html, body {
 /* Reusa tu .dialog y le damos skin imperial */
 .dialog{
   /* fondo SOLIDO (sin gradientes ni alfa) */
-  background: #0b0d10;
+  background: #e1e3e7;
   border: 1px solid var(--imp-edge);
   border-radius: 12px;
   box-shadow:
@@ -141,7 +141,7 @@ html, body {
 
   /* asegura que no “se mezcle” con lo de atrás */
   isolation: isolate;
-  color: #e7e4e4;
+  color: #100f0f;
 }
 
 
@@ -167,7 +167,7 @@ html, body {
 }
 
 .dialog__header{
-  background: #0b0d10;                 /* mismo color que el panel */
+  background: inherit;                /* mismo color que el panel */
   border-bottom: 1px solid var(--imp-edge);
   padding: 1rem 2rem 1rem 2rem;
   position: relative;
