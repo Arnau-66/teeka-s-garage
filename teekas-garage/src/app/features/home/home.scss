@@ -111,67 +111,166 @@ html, body {
 .cta:active { transform: translateY(0); }       /* “Pulsa” al hacer click */
 
 /* ====== MODAL OVERLAY ====== */
-.overlay {                      /* Capa que cubre toda la pantalla */
-  position: fixed;              /* Fija sobre la ventana, no hace scroll con la página */
-  inset: 0;                     /* Atajos para top/right/bottom/left: 0 */
-  z-index: 1000;                /* Alta prioridad para quedar por encima del resto */
-  display: grid;                /* Grid para centrar el diálogo fácilmente */
-  place-items: center;          /* Centra el cuadro del diálogo */
-  background: rgba(0,0,0,.55);  /* Fondo semitransparente (oscurece el home) */
-  backdrop-filter: blur(2px);   /* Desenfoque sutil del fondo (si el navegador lo soporta) */
-  -webkit-backdrop-filter: blur(2px); /* Prefijo para Safari */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+
+  /* ✅ Filtro oscuro sobre el fondo */
+  background: rgba(0, 0, 0, 0.6);    /* oscurece sin ocultar del todo */
+  backdrop-filter: blur(2px);        /* opcional: desenfoque sutil */
+  -webkit-backdrop-filter: blur(2px);
 }
 
-/* ====== DIALOG (contenedor del login) ====== */
-.dialog {                       /* Caja del modal */
-  width: min(92vw, 480px);      /* Responsive: hasta 480px, o 92% de la ventana en móviles */
-  max-height: 86dvh;            /* Evita que sea más alto que la ventana */
-  overflow: auto;               /* Si el contenido crece, permite scroll interno */
-  background: #0b0d10;          /* Fondo oscuro “espacial” */
-  color: #e6eaef;               /* Texto claro para contraste */
-  border-radius: 16px;          /* Bordes redondeados agradables */
-  box-shadow: 0 12px 40px rgba(0,0,0,.45); /* Sombra profunda para flotarlo */
-  padding: 1rem 1rem 1.25rem;   /* Relleno interno */
-  position: relative;           /* Para posicionar el botón de cierre dentro */
-  outline: none;                /* Evita borde azul al hacer foco; lo manejaremos si hace falta */
+
+/* Reusa tu .dialog y le damos skin imperial */
+.dialog{
+  /* fondo SOLIDO (sin gradientes ni alfa) */
+  background: #0b0d10;
+  border: 1px solid var(--imp-edge);
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,.04) inset,
+    0 12px 40px rgba(0,0,0,.55);
+  font-feature-settings: "tnum";
+  position: relative;
+  padding: 1.25rem 1.75rem 1.25rem;
+  line-height: 1.35;
+
+  /* asegura que no “se mezcle” con lo de atrás */
+  isolation: isolate;
+  color: #e7e4e4;
 }
 
-/* Cabecera del diálogo: título + descripción + botón cerrar */
-.dialog__header {
-  display: grid;                /* Grid sencillo para apilar elementos */
-  gap: .25rem;                  /* Pequeña separación entre título y descripción */
-  padding-right: 2rem;          /* Deja hueco para el botón ✕ de la esquina */
-  margin-bottom: .75rem;        /* Espacio respecto al formulario */
-}
-.dialog__header h2 {
-  margin: 0;                    /* Quitamos márgenes por defecto */
-  font-size: 1.25rem;           /* Tamaño del título del modal */
-  line-height: 1.2;             /* Altura de línea compacta */
-}
-.dialog__header p {
-  margin: 0;                    /* Sin margen para separar con el gap del header */
-  opacity: .85;                 /* Un poco más tenue que el título */
-  font-size: .95rem;            /* Ligeramente más pequeño */
+
+/* Borde holográfico sutil */
+.dialog::before{
+  content:"";
+  position: absolute; inset: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  box-shadow: 0 0 30px rgba(125, 211, 252, .10), 0 0 8px rgba(225, 29, 47, .10);
 }
 
-/* Botón de cerrar (la cruz) */
-.dialog__close {
-  position: absolute;           /* Posición flotante dentro del .dialog */
-  top: .5rem;                   /* Separación desde arriba */
-  right: .5rem;                 /* Separación desde la derecha */
-  width: 2rem;                  /* Tamaño cómodo para puntero/táctil */
-  height: 2rem;                 /* Idem */
-  display: grid;                /* Centra el símbolo dentro */
-  place-items: center;          /* Centrado perfecto */
-  border: none;                 /* Sin borde por defecto */
-  border-radius: .5rem;         /* Bordes suavizados */
-  background: transparent;      /* Fondo transparente por defecto */
-  color: #e6eaef;               /* Hereda color claro del modal */
-  cursor: pointer;              /* Cursor de botón */
+/* Tira superior de estado (Imperial red) */
+.dialog::after{
+  content:"";
+  position:absolute;
+  left:0; right:0; top:0;
+  height: 6px;
+  background:
+    linear-gradient(90deg, var(--imp-red), #ff4d4d 60%, var(--imp-red));
+  border-top-left-radius:12px;
+  border-top-right-radius:12px;
 }
-.dialog__close:hover {
-  background: rgba(255,255,255,.06); /* Sutil fondo al pasar el ratón */
+
+.dialog__header{
+  background: #0b0d10;                 /* mismo color que el panel */
+  border-bottom: 1px solid var(--imp-edge);
+  padding: 1rem 2rem 1rem 2rem;
+  position: relative;
+  margin-bottom: 1rem;
 }
+
+
+/* Emblema imperial (SVG como máscara) */
+.dialog__header::before{
+  content:"";
+  position:absolute; left:.9rem; top:.7rem;
+  width: 20px; height: 20px; opacity:.5;
+  background: var(--imp-red);
+  -webkit-mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M256 16c132.5 0 240 107.5 240 240S388.5 496 256 496 16 388.5 16 256 123.5 16 256 16zm0 64a176 176 0 100 352 176 176 0 000-352zm98.5 69.7l45.8 45.8-37.5 21.7a156 156 0 010 75.6l37.5 21.7-45.8 45.8-21.7-37.5a156 156 0 01-75.6 0l-21.7 37.5-45.8-45.8 37.5-21.7a156 156 0 010-75.6l-37.5-21.7 45.8-45.8 21.7 37.5a156 156 0 0175.6 0l21.7-37.5z"/></svg>') center / contain no-repeat;
+          mask: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" d="M256 16c132.5 0 240 107.5 240 240S388.5 496 256 496 16 388.5 16 256 123.5 16 256 16zm0 64a176 176 0 100 352 176 176 0 000-352zm98.5 69.7l45.8 45.8-37.5 21.7a156 156 0 010 75.6l37.5 21.7-45.8 45.8-21.7-37.5a156 156 0 01-75.6 0l-21.7 37.5-45.8-45.8 37.5-21.7a156 156 0 010-75.6l-37.5-21.7 45.8-45.8 21.7 37.5a156 156 0 0175.6 0l21.7-37.5z"/></svg>') center / contain no-repeat;
+}
+
+/* Línea de escaneo */
+/* Láser rojo: beam con glow y animación */
+.dialog__header::after{
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: -2px;            /* se “apoya” en el borde del header */
+  height: 3px;
+
+  /* gradiente del rayo */
+  background: linear-gradient(
+    90deg,
+    rgba(255,0,0,0) 0%,
+    #ff4040 18%,
+    #ff1f1f 50%,
+    #ff4040 82%,
+    rgba(255,0,0,0) 100%
+  );
+
+  /* glow del láser */
+  box-shadow:
+    0 0 8px rgba(255, 38, 38, .85),
+    0 0 16px rgba(255, 38, 38, .55),
+    0 0 28px rgba(255, 38, 38, .35);
+
+  /* ligero desenfoque para suavizar el núcleo */
+  filter: blur(.3px);
+
+    animation: laser-scan 1.8s linear infinite;
+  }
+
+  @keyframes laser-scan {
+    0%   { transform: translateX(-40%); opacity: .9; }
+    50%  { transform: translateX(  0%); opacity: 1;  }
+    100% { transform: translateX( 40%); opacity: .9; }
+  }
+
+
+.dialog__header h2{
+  color: var(--imp-text);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.dialog__header p{
+  color: var(--imp-sub);
+  font-size: .9rem;
+  letter-spacing: .04em;
+}
+
+app-login label{ color: var(--imp-sub); font-size:.95rem; }
+
+app-login input{
+  background: #0e131b;
+  border: 1px solid #1d2530;
+  color: var(--imp-text);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+app-login input:focus{
+  border-color: var(--imp-red);
+  box-shadow: 0 0 0 2px rgba(225,29,47,.25);
+}
+
+app-login button[type="submit"]{
+  background: linear-gradient(180deg, #ff3b3b, var(--imp-red) 60%, #b50d1e);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  border-radius: 10px;
+  box-shadow: 0 4px 0 #7a0b17, 0 0 12px rgba(225,29,47,.25);
+}
+app-login button[type="submit"]:hover{
+  filter: brightness(1.05);
+}
+
+
+.dialog__close{
+  color: var(--imp-text);
+  border-radius: 8px;
+}
+.dialog__close:hover{
+  background: rgba(225,29,47,.12);
+  box-shadow: 0 0 0 1px rgba(225,29,47,.35) inset;
+}
+
 
 /* ====== Ajustes mínimos del contenido del <app-login> dentro del modal ====== */
 app-login {
@@ -179,7 +278,7 @@ app-login {
 }
 app-login form {
   display: grid;                /* Formulario en columnas apiladas */
-  gap: .75rem;                  /* Separación entre campos y botones */
+  gap: 1rem;                  /* Separación entre campos y botones */
 }
 app-login label {
   display: grid;                /* Cada label apila el texto y el input */
@@ -264,3 +363,15 @@ app-login button[disabled] {
 
 /* Asegura que el overlay del modal quede por encima de planeta/estrellas */
 .overlay { z-index: 1000; }
+
+:root{
+  --imp-bg: #0b0d10;          /* fondo terminal */
+  --imp-panel: #0e1218;       /* panel interior */
+  --imp-edge: #161b22;        /* borde oscuro */
+  --imp-text: #e6eaef;        /* texto base */
+  --imp-sub: #9aa3b2;         /* subtítulos */
+  --imp-red: #e11d2f;         /* rojo imperial */
+  --imp-amber: #ffe18d;       /* acento SW */
+  --imp-cyan: #7dd3fc;        /* leds */
+}
+
