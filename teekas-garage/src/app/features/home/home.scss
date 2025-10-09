@@ -1,3 +1,13 @@
+/* GLOBAL */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  max-width: 100%;
+  /* usa clip en lugar de hidden para evitar saltos de scroll / issues con fixed */
+  overflow-x: clip;
+}
+
 /* ====== HOME (fondo) ====== */
 .home {                         /* Contenedor de la pantalla Home */
   min-height: 100dvh;           /* Altura mínima: toda la ventana (soporta móviles con barras) */
@@ -6,6 +16,82 @@
   gap: 1rem;                    /* Espacio entre título, texto y botón */
   text-align: center;           /* Alinea el texto al centro */
   padding: 2rem;                /* Respira un poco en pantallas pequeñas */
+  position: relative;           /* Necesario para posicionar planet/stars dentro */
+  overflow: hidden;             /* Oculta desbordes, p.ej. planeta */
+  background: #0b0f19;        /* Fondo “espacio” oscuro */
+  align-content: start;  /* sube el contenido */
+  padding-top: 1rem;
+  padding-bottom: 1rem;     /* espacio desde arriba */
+}
+
+.home > :not(.stars):not(.planet-wrap) {
+  position: relative;
+  z-index: 2;
+}
+
+.home h1 {
+  font-size: 10rem;      /* puedes ajustar */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4); /* mejora legibilidad sobre fondos */
+  background: linear-gradient(90deg, #ffe18d 0%, #ffb347 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;  /* Safari y Chrome */
+  background-clip: text;                 /* Firefox moderno */
+  color: transparent;                    /* fallback */
+  text-shadow: none;
+  margin-bottom: auto;
+}
+
+.home p {
+  color: #d0d5e0;         /* gris clarito */
+  font-size: 1.1rem;
+  margin: 0%;
+}
+
+.cta {
+  background: #ffe18d;  /* ejemplo: amarillo Star Wars */
+  color: #000;         /* texto negro para contraste */
+}
+
+.cta p {
+  color: #0e1b34;
+}
+.cta:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(90deg, #ffe18d 0%, #ffb347 100%);
+
+}
+
+/* ✨ Estrellas animadas (parallax muy sutil) */
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none; /* <— importante para que no tape el botón */
+  opacity: .9;
+
+  /* Menos densas (evita rejilla/moire) */
+  background-image:
+    radial-gradient(rgba(255,255,255,.8) 1px, transparent 1.5px),
+    radial-gradient(rgba(255,255,255,.6) 1px, transparent 2px);
+  background-size:
+    400px 400px, /* separación grande */
+    600px 600px;
+  background-position:
+    0 0,
+    60px 80px;
+
+  animation: drift-stars 120s linear infinite;
+}
+
+
+@keyframes drift-stars {
+  from { background-position: 0 0, 0 0; }
+  to   { background-position: -2000px 1000px, -1000px 500px; }
+}
+
+/* Respeta preferencia del usuario (reduce motion) */
+@media (prefers-reduced-motion: reduce) {
+  .stars { animation: none; }
 }
 
 /* Botón de “Enter Starships” (estilos mínimos para que parezca CTA) */
@@ -14,7 +100,7 @@
   padding: .75rem 1.25rem;      /* Zona clicable cómoda */
   border-radius: .75rem;        /* Bordes redondeados */
   border: none;                 /* Sin borde por defecto */
-  background: #2d6cdf;          /* Color base del botón */
+  background: #ffe18d;          /* Color base del botón */
   color: #fff;                  /* Texto en blanco */
   font-weight: 600;             /* Un poco más grueso */
   text-decoration: none;        /* Quita subrayado si fuese <a> */
@@ -125,3 +211,56 @@ app-login button[disabled] {
   opacity: .6;                  /* Botón desactivado: visualmente tenue */
   cursor: not-allowed;          /* Cursor no permitido */
 }
+
+/* margen extra para que el glow no se corte */
+:root { --planet-glow-margin: 6vh; }  /* prueba 6–12vh según veas */
+
+/* 🌍 Hemisferio visible (mitad inferior de la pantalla) */
+.planet-wrap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 50vh;                 /* visible ~mitad inferior */
+  overflow: visible;             /* recorta el círculo (solo hemisferio) */
+  z-index: 1;                   /* por encima de las estrellas, por debajo del contenido */
+  pointer-events: none;         /* decorativo, no bloquea clicks */
+}
+
+/* Círculo del planeta: diámetro = 100vh para que media altura sea 50vh */
+.planet {
+  position: absolute;
+  left: 50%;
+  bottom: -50vh;                /* la mitad queda fuera → se ve hemisferio superior */
+  width: 100vh;
+  height: 100vh;
+  transform: translateX(-50%);  /* centra horizontalmente */
+  border-radius: 50%;
+  box-shadow:
+    0 -30px 120px rgba(255, 216, 107, .08) inset,
+    0 0 60px rgba(255, 216, 107, .12); /* brillo sutil */
+}
+
+/* Textura y rotación separadas en un hijo para no afectar la traslación */
+.planet-rot {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+
+  /* ⬇⬇ Asegúrate de tener la imagen en public/img/tatooine.png */
+  background-image: url('/img/Tatooine.png');
+  background-size: cover;
+  background-position: center;
+
+  animation: spin 240s linear infinite; /* rotación MUY lenta */
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .planet-rot { animation: none; }
+}
+
+/* Asegura que el overlay del modal quede por encima de planeta/estrellas */
+.overlay { z-index: 1000; }
