@@ -1,0 +1,160 @@
+/* ===== app-login.component.scss ===== */
+
+/* host del componente */
+:host {                                   /* selector del propio componente */
+  display: block;                         /* se comporta como bloque */
+  /* hereda variables globales (—imp-*) desde :root si las usas */
+}
+
+/* contenedor principal del login */
+.auth {                                   /* wrapper del área de login */
+  display: block;                         /* bloque normal */
+  color: #0b0d10;                         /* color de texto base sobre modal claro */
+}
+
+/* Título (solo visible en REGISTER según tu HTML) */
+.auth h2 {                                /* título del formulario register */
+  margin: 0 0 .5rem 0;                    /* separación inferior */
+  font-weight: 900;                       /* peso alto */
+  color: #111;                            /* texto más oscuro */
+  letter-spacing: .02em;                  /* ligero tracking */
+}
+
+/* ===== FORM LAYOUT ===== */
+.auth form {                              /* rejilla del formulario */
+  display: grid;                          /* usa grid */
+  gap: 1rem;                              /* separación entre filas */
+}
+
+/* ===== LABEL + INPUT ===== */
+.auth label {                             /* bloque label + input */
+  display: grid;                          /* apila el span + input */
+  gap: .35rem;                            /* separación label->input */
+  text-align: left;                       /* alinea textos a la izquierda */
+}
+
+.auth label > span {                      /* texto del label */
+  font-weight: 700;                       /* seminegrita */
+  color: #1a1d22;                         /* tono oscuro */
+}
+
+/* ===== CAMPOS ===== */
+.auth input {                             /* todos los inputs */
+  background: #12151a;                    /* fondo oscuro estilo UI */
+  color: #e6eaef;                         /* texto claro */
+  border: 1px solid #232830;              /* borde sutil */
+  border-radius: .5rem;                   /* esquinas suaves */
+  padding: .6rem .75rem;                  /* relleno cómodo */
+  outline: none;                          /* sin halo por defecto */
+  transition:                              /* transiciones suaves */
+    border-color .15s,
+    box-shadow .15s,
+    background-color .15s;
+}
+
+.auth input:focus {                        /* estado enfoque */
+  border-color: var(--imp-red);            /* borde rojo imperial */
+  box-shadow: 0 0 0 2px rgba(225,29,47,.25);/* halo rojo suave */
+}
+
+/* ===== MENSAJES ===== */
+.auth .hint {                              /* info auxiliar */
+  color: #6b7280;                          /* gris medio */
+  font-size: .9rem;                        /* un poco más pequeño */
+  margin: 0;                               /* sin márgenes extra */
+}
+
+.auth .error {                             /* errores */
+  color: #ff4d4d;                          /* rojo error */
+  font-size: .9rem;                        /* tamaño compacto */
+  margin: 0;                               /* sin márgenes extra */
+}
+
+/* ===== CONTENEDOR DE ACCIONES (BOTONERA) ===== */
+.actions {                                 /* grid de botones */
+  display: grid;                           /* rejilla */
+  grid-template-columns: 1fr;              /* una columna (full width) */
+  gap: .75rem;                             /* separación vertical */
+  margin-top: .75rem;                      /* respiro superior */
+  padding-inline: .25rem;                  /* leve padding lateral */
+}
+
+.is-wide {                                 /* utilitario: ancho completo */
+  width: 100%;                             /* ocupa todo el ancho */
+  box-sizing: border-box;                  /* incluye padding/border */
+}
+
+@media (max-width: 540px) {                /* ajuste móvil */
+  .actions { grid-template-columns: 1fr; } /* sigue 1 columna */
+}
+
+/* ===== BOTONERA IMPERIAL — ESTILO PLANO SIN TRAZOS ===== */
+
+/* BASE BUTTON (forma y tipografía) */
+.btn {                                     /* base común de botones */
+  --cut: 12px;                             /* tamaño del “corte” en esquinas */
+  --h: 48px;                               /* altura estándar del botón */
+  position: relative;                      /* referencia para pseudo-elementos (si se usan) */
+  display: inline-grid;                    /* grid para centrar el texto */
+  place-items: center;                     /* centrado perfecto */
+  width: max-content;                      /* ancho según contenido por defecto */
+  min-height: var(--h);                    /* respeta altura mínima */
+  padding: 0 1.1rem;                       /* espacio horizontal interno */
+  border: 0;                               /* sin borde nativo */
+  cursor: pointer;                         /* cursor de acción */
+  user-select: none;                       /* evita selección de texto al pulsar */
+  text-transform: uppercase;               /* mayúsculas */
+  letter-spacing: .12em;                   /* tracking estilo imperial */
+  font-weight: 900;                        /* fuerte */
+  clip-path: polygon(                      /* recorta esquinas estilo “panel” */
+    var(--cut) 0%, calc(100% - var(--cut)) 0%,
+    100% var(--cut), 100% calc(100% - var(--cut)),
+    calc(100% - var(--cut)) 100%, var(--cut) 100%,
+    0% calc(100% - var(--cut)), 0% var(--cut)
+  );
+  transition:                               /* feedback rápido */
+    transform .06s,
+    filter .12s,
+    box-shadow .12s,
+    background-color .12s,
+    color .12s;
+}
+
+.is-wide { width: 100%; }                  /* botón a todo el ancho en la modal */
+
+/* ===== Variante PLANA para AMBOS botones (LOGIN activo y REGISTER) ===== */
+.btn-imperial,                             /* aplica a Login cuando NO está disabled */
+.btn-ghost {                               /* aplica a Register */
+  background: #f2f4f7;                     /* fondo claro plano (sin degradados) */
+  color: #0b0d10;                          /* texto oscuro legible */
+  border: 0;                               /* sin trazo/borde: como pediste */
+  box-shadow: 0 2px 0 rgba(0,0,0,.18);     /* pequeña base para sensación de botón físico */
+  /* NO usamos ::before/::after → así evitamos marcos o trazos alrededor */
+}
+
+.btn-imperial:hover,
+.btn-ghost:hover {                         /* hover idéntico en ambos */
+  background: #eef1f4;                     /* leve aclarado al pasar el ratón */
+  box-shadow:                              
+    0 2px 0 rgba(0,0,0,.18),               /* mantiene base inferior */
+    0 0 0 3px rgba(225,29,47,.10);         /* halo muy sutil (opcional y suave) */
+}
+
+.btn-imperial:active,
+.btn-ghost:active {                        /* feedback de “click” */
+  transform: translateY(1px);              /* baja 1px para simular pulsación */
+}
+
+/* ===== ESTADO DESACTIVADO SOLO PARA LOGIN ===== */
+.btn-imperial:disabled {                   /* cuando form inválido / loading */
+  background: #e9ecef;                     /* un pelín más gris (pero no apagado del todo) */
+  color: #9aa3b2;                          /* texto atenuado */
+  box-shadow: 0 2px 0 rgba(0,0,0,.10);     /* base más suave */
+  cursor: not-allowed;                     /* cursor bloqueado */
+  /* SIN ::before/::after → nada de brillos ni trazos en disabled */
+}
+
+/* Responsive: recorta menos esquina en pantallas pequeñas */
+@media (max-width: 480px) {                /* media query móvil */
+  .btn { --cut: 9px; --h: 44px; }          /* esquinas menos “agresivas” y altura menor */
+}

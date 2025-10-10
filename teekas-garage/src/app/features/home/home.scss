@@ -177,7 +177,7 @@ html, body {
 .dialog__header{
   background: inherit;                /* mismo color que el panel */
   border-bottom: 1px solid var(--imp-edge);
-  padding: 1rem 2rem 1rem 2rem;
+  padding: 1.75rem 2rem 1rem 2rem;
   position: relative;
   margin-bottom: 1rem;
   text-align: center;     /* ✅ centra h2 y p */
@@ -272,30 +272,9 @@ html, body {
   letter-spacing: .04em;
 }
 
-app-login label{ color: var(--imp-sub); font-size:.95rem; }
 
-app-login input{
-  background: #0e131b;
-  border: 1px solid #1d2530;
-  color: var(--imp-text);
-  outline: none;
-  transition: border-color .15s, box-shadow .15s;
-}
-app-login input:focus{
-  border-color: var(--imp-red);
-  box-shadow: 0 0 0 2px rgba(225,29,47,.25);
-}
 
-app-login button[type="submit"]{
-  background: linear-gradient(180deg, #ff3b3b, var(--imp-red) 60%, #b50d1e);
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  border-radius: 10px;
-  box-shadow: 0 4px 0 #7a0b17, 0 0 12px rgba(225,29,47,.25);
-}
-app-login button[type="submit"]:hover{
-  filter: brightness(1.05);
-}
+
 
 
 .dialog__close {
