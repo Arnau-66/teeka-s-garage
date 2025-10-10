@@ -60,4 +60,24 @@ export class StarshipsListComponent implements OnInit {
     const m = url.match(/\/starships\/(\d+)\/?$/);
     return m ? Number(m[1]) : 0;
   }
+
+  
+  currentShipImg: string | null = null; 
+  currentShipName: string | null = null; 
+
+  private shipImageFrom(ship: StarshipsListItem): string {
+    const id = this.idFromUrl(ship.url);
+    return `/img/ships/${id}.png`; 
+  }
+
+  previewShip(ship: StarshipsListItem) {
+    this.currentShipName = ship.name;        
+    this.currentShipImg = this.shipImageFrom(ship);
+  }
+
+  clearPreview() {
+    this.currentShipName = null; 
+    this.currentShipImg = null;
+  }
+
 }

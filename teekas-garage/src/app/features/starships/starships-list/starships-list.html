@@ -1,10 +1,28 @@
-<section class="starships-list">
+<section class="starships-list hangar">
+  
+  <div class="hangar__bg" aria-hidden="true"></div>
+  <div class="hangar__stars" aria-hidden="true"></div>
+
+  
+  <div class="hangar__scene" aria-hidden="true">
+    <div class="jawa"></div>
+    <div class="holo-emitter">
+      <div class="holo-projection">
+        <img
+          [src]="currentShipImg || '/img/placeholders/ship-placeholder.png'"
+          [attr.alt]="currentShipName ? (currentShipName + ' hologram') : ''"
+          decoding="async" />
+      </div>
+    </div>
+  </div>
+
+  <div class="hangar__panel">
     <h2>Starships</h2>
 
     <div class="back-orbit">
-        <a routerLink="/" class="orbit-button" aria-label="Return to orbit">
-            ⬅ Back to Orbit
-        </a>
+      <a routerLink="/" class="orbit-button" aria-label="Return to orbit">
+        ⬅ Back to Orbit
+      </a>
     </div>
 
     @if (loading()) {
@@ -20,36 +38,37 @@
 
     @else {
         
-        <ul class="starships">
+        <ul class="starships" (mouseleave)="clearPreview()">
             @for (ship of starships(); track ship.url) {
-                <li class="starship-item">
-                    <a
-                        class="ship-link"
-                        [routerLink]="['/starships', idFromUrl(ship.url)]"
-                        aria-label="View details for {{ ship.name }}"
-                    >
-                        <span class="duo-line">
-                            <strong class="ship-name">{{ ship.name }}</strong>
-                            <span class="aurebesh" aria-hidden="true">{{ship.name}} </span>
-                        </span>
-
-                        <span class="duo-line">
-                            <span class="ship-model"> — {{ ship.model }}</span>
-                            <span class="aurebesh" aria-hidden="true">— {{ ship.model }}</span>
-                        </span>
-                    </a>
-                </li>
+            <li class="starship-item">
+                <a
+                class="ship-link"
+                [routerLink]="['/starships', idFromUrl(ship.url)]"
+                aria-label="View details for {{ ship.name }}"
+                (mouseenter)="previewShip(ship)"  
+                (focus)="previewShip(ship)" >      
+                <span class="duo-line">
+                    <strong class="ship-name">{{ ship.name }}</strong>
+                    <span class="aurebesh" aria-hidden="true">{{ ship.name }}</span>
+                </span>
+                <span class="duo-line">
+                    <span class="ship-model"> — {{ ship.model }}</span>
+                    <span class="aurebesh" aria-hidden="true">— {{ ship.model }}</span>
+                </span>
+                </a>
+            </li>
             } @empty {
-                <li class="empty">No starships found.</li>
+            <li class="empty">No starships found.</li>
             }
         </ul>
 
         <div class="pager bottom">
             <button type="button" (click)="prevPage()" [disabled]="!hasPrev() || loading()">← Prev</button>
             <span>Page {{ currentPage() }}</span>
-            <button type="button" (click)="nextPage()" [disabled]="!hasNext() || loading()">Next →</button>
+            <button type="button" (click)="nextPage()" [disabled]="!hasNext() || loading()">More ships →</button>
         </div>
-    }
+        } 
+  </div>
 
 
 
