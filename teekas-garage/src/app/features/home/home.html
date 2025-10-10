@@ -8,12 +8,14 @@
       </div>
     </div>
 
-  <h1>TATOOINE</h1>
-  <p>Explore the Star Wars starships database.</p>
+  @if (!hyperspace()) {
+    <h1>TATOOINE</h1>
+    <p>Explore the Star Wars starships database.</p>
 
-  <button class="cta" type="button" (click)="openLogin()" aria-haspopup="dialog" aria-controls="loginDialog">
-    <p>Teeka's Garage</p>
-  </button>
+    <button class="cta" type="button" (click)="openLogin()" aria-haspopup="dialog" aria-controls="loginDialog">
+      <p>Teeka's Garage</p>
+    </button>
+  }
 </section>
 
 @if (showLogin()) {
