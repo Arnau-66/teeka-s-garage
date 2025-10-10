@@ -1,12 +1,13 @@
-import { Component, HostListener, signal } from '@angular/core';
+import { Component, HostListener, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from '../auth/login/login';
 import { Router } from '@angular/router';
+import { HyperspaceOverlayComponent } from '../../shared/hyperspace-overlay';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, LoginComponent],
+  imports: [CommonModule, LoginComponent, HyperspaceOverlayComponent],
   templateUrl: './home.html',
   styleUrl: './home.scss'
 })
@@ -15,6 +16,8 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   showLogin = signal(false);
   hyperspace = signal(false);
+
+  @ViewChild(HyperspaceOverlayComponent) overlay?: HyperspaceOverlayComponent;
 
   constructor(private router: Router) {}
 
@@ -27,14 +30,24 @@ export class HomeComponent {
   }
 
   onAuthSuccess() {
-    this.closeLogin();               // cierra el modal
-    this.hyperspace.set(true);       // muestra overlay-animación
+    // oculta textos/CTA
+    document.documentElement.classList.add('hide-home-ui');
 
-    // deja que la animación corra y navega al final
-    setTimeout(() => {
-      this.router.navigate(['/starships']);
-      // opcional: ocultar overlay justo después
-      setTimeout(() => this.hyperspace.set(false), 50);
-    }, 900); // debe coincidir con la duración CSS
+    // cierra modal y muestra overlay
+    this.closeLogin();
+    this.hyperspace.set(true);
+
+    // Espera a que Angular pinte <app-hyperspace-overlay> y arráncalo
+    // arrancar la secuencia cuando el overlay existe en el DOM
+    queueMicrotask(() => this.overlay?.startAutoSequence());
+  }
+
+  // nos lo emite el overlay cuando termina
+  onHyperspaceDone() {
+    this.router.navigate(['/starships']);
+    this.hyperspace.set(false);
+    document.documentElement.classList.remove('hide-home-ui');
   }
 }
+
+

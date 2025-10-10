@@ -1,0 +1,52 @@
+.hs-root{
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  pointer-events: none;         /* ignora clicks salvo en el botón */
+  opacity: 0;
+  transition: opacity .25s ease;
+  background: #000;             /* fundido a negro */
+}
+.hs-root.show{ opacity: 1; }
+
+.hs-root canvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* botón manual para disparar la animación */
+.hs-btn{
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: auto;         /* permite click */
+  padding: .6rem 1rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  border: 0;
+  background: #f2f4f7;
+  color: #0b0d10;
+  clip-path: polygon(
+    12px 0%, calc(100% - 12px) 0%,
+    100% 12px, 100% calc(100% - 12px),
+    calc(100% - 12px) 100%, 12px 100%,
+    0% calc(100% - 12px), 0% 12px
+  );
+  box-shadow: 0 2px 0 rgba(0,0,0,.18);
+}
+.hs-btn:hover{ background:#eef1f4; }
+
+/* flash blanco final */
+.hs-flash{
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 140ms ease-in;
+}
+.hs-flash.on{ opacity: 1; }

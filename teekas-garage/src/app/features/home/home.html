@@ -45,9 +45,11 @@
   </div>
 }
 
-@if (hyperspace()) {
-  <div class="hyperspace" aria-hidden="true">
-    <div class="flash"></div>
-  </div>
-}
+<app-hyperspace-overlay
+  #hs
+  [show]="hyperspace()"
+  [showButton]="false"
+  [durationMs]="2600"
+  (done)="onHyperspaceDone()">
+</app-hyperspace-overlay>
 

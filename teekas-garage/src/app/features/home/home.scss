@@ -404,61 +404,98 @@ app-login button[disabled] {
   --imp-cyan: #7dd3fc;        /* leds */
 }
 
-/* ===== HIPERESPACIO / TRANSICIÓN DE ZOOM ===== */
+/* ====== HYPERSPACE OVERLAY ====== */
+/* Capa que cubre toda la pantalla durante la transición */
 .hyperspace{
-  position: fixed;              /* cubre toda la pantalla por encima */
-  inset: 0;                     /* top/right/bottom/left: 0 */
-  z-index: 3000;                /* por encima del overlay del modal */
-  pointer-events: none;         /* no bloquea clicks */
-  background: #000;             /* base negra del túnel */
-  overflow: hidden;             /* oculta desbordes de los streaks */
-  animation: hs-fade 900ms ease-in forwards;  /* aparece y se va */
+  position: fixed;              /* fija a la ventana */
+  inset: 0;                     /* ocupa todo */
+  z-index: 2000;                /* por encima del modal/fondo */
+  pointer-events: none;         /* no bloquea clics (por si acaso) */
+  background: #000;             /* fase 1: negro de base */
+  overflow: hidden;             /* oculta desbordes en animaciones */
 }
 
-/* Líneas de “estrellas estiradas” (streaks) */
-.hyperspace::before{
-  content: "";
-  position: absolute;
-  inset: -50%;                  /* más grande para que no se corten bordes */
-  background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(255,255,255,.35) 0 1px,
-      transparent 1px 6px
-    );
-  transform: translateZ(0) scaleX(.6);   /* empieza “estrecho” */
-  filter: blur(1px);             /* suaviza las líneas */
-  mix-blend-mode: screen;        /* suma luz sobre el negro */
-  animation: hs-streaks 900ms cubic-bezier(.2,.8,.2,1) forwards;
-  opacity: .9;
-}
-
-/* Flash radial blanco en el centro (efecto salto) */
-.hyperspace .flash{
+/* 1) Fondo de estrellas (como .stars), con su propia animación */
+.hyperspace .hs-stars{
   position: absolute;
   inset: 0;
-  opacity: 0;
+  opacity: 0;                   /* aparece con el fundido */
+  background-image:
+    radial-gradient(rgba(255,255,255,.85) 1px, transparent 1.6px),
+    radial-gradient(rgba(255,255,255,.60) 1px, transparent 2.2px);
+  background-size: 380px 380px, 620px 620px;
+  background-position: 0 0, 70px 90px;
+  animation: hs-stars 1600ms ease-in forwards; /* secuencia completa */
+}
+
+/* 2) Streaks (líneas de hipervelocidad) que aparecen en la fase intermedia */
+.hyperspace .hs-streaks{
+  position: absolute;
+  inset: 0;
+  opacity: 0;                  /* se activan a mitad de animación */
   background:
-    radial-gradient(circle at center, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 60%);
-  animation: hs-flash 300ms ease-out 200ms forwards; /* aparece luego */
+    /* líneas verticales finas repetidas */
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 0px,
+      rgba(255,255,255,0) 6px,
+      rgba(255,255,255,.10) 6px,
+      rgba(255,255,255,.10) 7px,
+      rgba(255,255,255,0) 7px,
+      rgba(255,255,255,0) 16px
+    );
+  transform-origin: center center;
+  filter: blur(.4px);          /* suaviza las líneas */
+  animation: hs-streaks 1600ms linear forwards;
 }
 
-/* Opacidad general del overlay */
-@keyframes hs-fade{
-  0%   { opacity: 0; }
-  20%  { opacity: 1; }
-  100% { opacity: 0; }
+/* 3) Flash a blanco al final de la transición */
+.hyperspace .hs-flash{
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  opacity: 0;                  /* aparece solo al final */
+  animation: hs-flash 1600ms ease-in forwards;
 }
 
-/* Las líneas se estiran muy rápido hacia los lados */
+/* ====== KEYFRAMES ====== */
+
+/* Secuencia estrellas:
+   0–35%   -> aparecen sobre negro
+   35–80%  -> “estirón” tipo warp (escala horizontal, comprime vertical)
+   80–100% -> se desvanecen antes del flash
+*/
+@keyframes hs-stars{
+  0%   { opacity: 0; transform: scale(1); }
+  30%  { opacity: 1; transform: scale(1); }
+  60%  { opacity: 1; transform: scaleX(1.8) scaleY(.35); }
+  80%  { opacity: .6; transform: scaleX(2.0) scaleY(.25); }
+  100% { opacity: 0; transform: scaleX(2.2) scaleY(.20); }
+}
+
+/* Secuencia streaks:
+   0–30%   -> ocultas
+   30–60%  -> aparecen y “se estiran” (warp)
+   60–85%  -> se desvanecen
+   85–100% -> desaparecen
+*/
 @keyframes hs-streaks{
-  0%   { transform: scaleX(.6); opacity: .9; }
-  100% { transform: scaleX(8);  opacity: 0; }
+  0%   { opacity: 0; transform: scaleX(1) scaleY(.4); }
+  30%  { opacity: 0; transform: scaleX(1.0) scaleY(.4); }
+  45%  { opacity: .8; transform: scaleX(1.6) scaleY(.25); }
+  60%  { opacity: .9; transform: scaleX(1.9) scaleY(.22); }
+  85%  { opacity: 0; transform: scaleX(2.1) scaleY(.20); }
+  100% { opacity: 0; transform: scaleX(2.2) scaleY(.20); }
 }
 
-/* El flash central sube la luz y se disipa */
+/* Flash blanco:
+   0–86%   -> oculto
+   88–100% -> aparece y se queda (navegamos justo después)
+*/
 @keyframes hs-flash{
   0%   { opacity: 0; }
+  86%  { opacity: 0; }
+  88%  { opacity: 1; }
   100% { opacity: 1; }
 }
 
