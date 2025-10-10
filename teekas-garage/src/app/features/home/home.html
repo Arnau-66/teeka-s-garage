@@ -37,9 +37,15 @@
         <button class="dialog__close" type="button" (click)="closeLogin()" aria-label="Close dialog">X</button>
       </header>
 
-      <app-login></app-login>
+      <app-login (authSuccess)="onAuthSuccess()"></app-login>
 
     </div>
+  </div>
+}
+
+@if (hyperspace()) {
+  <div class="hyperspace" aria-hidden="true">
+    <div class="flash"></div>
   </div>
 }
 

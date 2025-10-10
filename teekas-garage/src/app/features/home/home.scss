@@ -404,3 +404,62 @@ app-login button[disabled] {
   --imp-cyan: #7dd3fc;        /* leds */
 }
 
+/* ===== HIPERESPACIO / TRANSICIÓN DE ZOOM ===== */
+.hyperspace{
+  position: fixed;              /* cubre toda la pantalla por encima */
+  inset: 0;                     /* top/right/bottom/left: 0 */
+  z-index: 3000;                /* por encima del overlay del modal */
+  pointer-events: none;         /* no bloquea clicks */
+  background: #000;             /* base negra del túnel */
+  overflow: hidden;             /* oculta desbordes de los streaks */
+  animation: hs-fade 900ms ease-in forwards;  /* aparece y se va */
+}
+
+/* Líneas de “estrellas estiradas” (streaks) */
+.hyperspace::before{
+  content: "";
+  position: absolute;
+  inset: -50%;                  /* más grande para que no se corten bordes */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255,255,255,.35) 0 1px,
+      transparent 1px 6px
+    );
+  transform: translateZ(0) scaleX(.6);   /* empieza “estrecho” */
+  filter: blur(1px);             /* suaviza las líneas */
+  mix-blend-mode: screen;        /* suma luz sobre el negro */
+  animation: hs-streaks 900ms cubic-bezier(.2,.8,.2,1) forwards;
+  opacity: .9;
+}
+
+/* Flash radial blanco en el centro (efecto salto) */
+.hyperspace .flash{
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,.9) 0%, rgba(255,255,255,0) 60%);
+  animation: hs-flash 300ms ease-out 200ms forwards; /* aparece luego */
+}
+
+/* Opacidad general del overlay */
+@keyframes hs-fade{
+  0%   { opacity: 0; }
+  20%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Las líneas se estiran muy rápido hacia los lados */
+@keyframes hs-streaks{
+  0%   { transform: scaleX(.6); opacity: .9; }
+  100% { transform: scaleX(8);  opacity: 0; }
+}
+
+/* El flash central sube la luz y se disipa */
+@keyframes hs-flash{
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+

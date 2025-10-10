@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { Component, signal, Output, EventEmitter } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -13,6 +13,8 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 
 export class LoginComponent {
+
+  @Output() authSuccess = new EventEmitter<void>();
 
   mode = signal<'login' | 'register'>('login');
   loading = signal<boolean>(false);
@@ -55,7 +57,8 @@ export class LoginComponent {
         await this.auth.login(email, password);
       }
 
-      this.router.navigate(['/starships']);
+      this.authSuccess.emit();
+      
     } catch (e: any) {
 
       const code = e?.code as string | undefined;
