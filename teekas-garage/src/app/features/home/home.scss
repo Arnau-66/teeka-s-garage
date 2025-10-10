@@ -1,6 +1,14 @@
 /* GLOBAL */
 *, *::before, *::after { box-sizing: border-box; }
 
+#loginTitle {
+  font-family: "Aurebesh", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-weight: 700; /* ajusta si tu archivo no es bold */
+}
+
+
 html, body {
   width: 100%;
   max-width: 100%;
@@ -172,6 +180,8 @@ html, body {
   padding: 1rem 2rem 1rem 2rem;
   position: relative;
   margin-bottom: 1rem;
+  text-align: center;     /* ✅ centra h2 y p */
+  padding-right: 3rem;    /* deja hueco para la X absoluta */
 }
 
 
@@ -228,8 +238,34 @@ html, body {
   color: var(--imp-text);
   letter-spacing: .08em;
   text-transform: uppercase;
-  font-weight: 800;
+  font-weight: 900;
+  position: relative;
 }
+
+.dialog__header h2::after{
+  content: "SCANNING";
+  position: absolute;
+  left: 220px;               /* alinea con el inicio del láser */
+  bottom: -80px;            /* colócalo justo encima del rayo */
+  z-index: 1;               /* por encima del rayo */
+  font-size: 1rem;
+  letter-spacing: .28em;
+  font-weight: 700;
+  color: #fff;
+
+  /* brillo rojo tipo láser */
+  text-shadow:
+    0 0 6px rgba(255, 38, 38, .85),
+    0 0 12px rgba(255, 38, 38, .55),
+    0 0 20px rgba(255, 38, 38, .35);
+
+  pointer-events: none;
+
+  /* misma animación que el rayo para moverse sincronizado */
+  animation: laser-scan 1.8s linear infinite;
+}
+
+
 .dialog__header p{
   color: var(--imp-sub);
   font-size: .9rem;
@@ -262,16 +298,30 @@ app-login button[type="submit"]:hover{
 }
 
 
-.dialog__close{
-  color: var(--imp-text);
-  border-radius: 8px;
+.dialog__close {
+  position: absolute;
+  top: .6rem;
+  right: .6rem;
+  z-index: 2;                 /* por encima del láser y textos */
+
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+
+  border: 1px solid #2a2f37;
+  border-radius: 50%;
+  background: #e1e3e7;        /* mismo color que .dialog (tema claro) */
+  color: #111;
+  cursor: pointer;
 }
+
 .dialog__close:hover{
   background: rgba(225,29,47,.12);
   box-shadow: 0 0 0 1px rgba(225,29,47,.35) inset;
 }
 
-
+.dialog__header::after { z-index: 0; }
 /* ====== Ajustes mínimos del contenido del <app-login> dentro del modal ====== */
 app-login {
   display: block;               /* Que ocupe todo el ancho disponible del diálogo */
