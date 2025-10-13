@@ -37,37 +37,63 @@
     }
 
     @else {
+      <div class="carousel">
         
-        <ul class="starships" (mouseleave)="clearPreview()">
-            @for (ship of starships(); track ship.url) {
-            <li class="starship-item">
-                <a
-                class="ship-link"
+        <button class="car-btn car-btn--prev"
+                type="button"
+                (click)="goPrevInCarousel()"
+                [disabled]="activeIndex() === 0">
+          ‹
+        </button>
+       
+        <ul #rack class="starships rack" (mouseleave)="clearPreview()">
+          @for (ship of starships(); track ship.url; let i = $index) {
+            <li class="starship-item"
+                [attr.data-idx]="i"
+                [class.is-active]="i === activeIndex()"
+                (click)="setActiveIndex(i)"
+                (mouseenter)="previewShip(ship, i)"
+                (focus)="previewShip(ship, i)"
+                tabindex="0">
+
+              <a class="ship-link"
                 [routerLink]="['/starships', idFromUrl(ship.url)]"
-                aria-label="View details for {{ ship.name }}"
-                (mouseenter)="previewShip(ship)"  
-                (focus)="previewShip(ship)" >      
+                aria-label="View details for {{ ship.name }}">
                 <span class="duo-line">
-                    <strong class="ship-name">{{ ship.name }}</strong>
-                    <span class="aurebesh" aria-hidden="true">{{ ship.name }}</span>
+                  <strong class="ship-name">{{ ship.name }}</strong>
+                  <span class="aurebesh" aria-hidden="true">{{ ship.name }}</span>
                 </span>
                 <span class="duo-line">
-                    <span class="ship-model"> — {{ ship.model }}</span>
-                    <span class="aurebesh" aria-hidden="true">— {{ ship.model }}</span>
+                  <span class="ship-model"> — {{ ship.model }}</span>
+                  <span class="aurebesh" aria-hidden="true">— {{ ship.model }}</span>
                 </span>
-                </a>
+              </a>
+
             </li>
-            } @empty {
+          } @empty {
             <li class="empty">No starships found.</li>
-            }
+          }
         </ul>
 
-        <div class="pager bottom">
-            <button type="button" (click)="prevPage()" [disabled]="!hasPrev() || loading()">← Prev</button>
-            <span>Page {{ currentPage() }}</span>
-            <button type="button" (click)="nextPage()" [disabled]="!hasNext() || loading()">More ships →</button>
-        </div>
-        } 
+        <button class="car-btn car-btn--next"
+                type="button"
+                (click)="goNextInCarousel()"
+                [disabled]="activeIndex() >= starships().length - 1">
+          ›
+        </button>
+
+        <div class="rack-fade rack-fade--left" aria-hidden="true"></div>
+        <div class="rack-fade rack-fade--right" aria-hidden="true"></div>
+      </div>
+
+      <div class="pager bottom">
+        <button type="button" (click)="prevPage()" [disabled]="!hasPrev() || loading()">← Prev</button>
+        <span>Page {{ currentPage() }}</span>
+        <button type="button" (click)="nextPage()" [disabled]="!hasNext() || loading()">More ships →</button>
+      </div>
+
+    }
+ 
   </div>
 
 

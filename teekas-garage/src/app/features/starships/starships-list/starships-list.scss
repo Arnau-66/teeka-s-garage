@@ -39,15 +39,15 @@
 }
 .hangar__panel h2{ color:#fff; margin:0 0 .75rem; }
 
-/* ===== LISTA / TARJETAS ===== */
+/* ===== LISTA / TARJETAS (base) ===== */
 .starships{
-  list-style:none;                /* sin bullets */
+  list-style:none;
   padding:0; margin:0 0 1rem;
-  display:flex; flex-direction:column; gap:.75rem;
 }
 
+/* tarjeta */
 .starship-item{
-  background:rgba(255,255,255,.92);        /* tarjeta clara translúcida */
+  background:rgba(255,255,255,.92);
   border:1px solid rgba(0,0,0,.08);
   border-radius:12px;
   box-shadow:0 10px 30px rgba(0,0,0,.22);
@@ -56,7 +56,7 @@
 
 .ship-link{
   display:block; padding:.9rem 1rem;
-  color:#111; text-decoration:none;        /* texto oscuro legible */
+  color:#111; text-decoration:none;
 }
 
 .duo-line{ display:block; line-height:1.25; }
@@ -71,3 +71,56 @@
   display:flex; align-items:center; gap:.75rem;
   margin-block:.5rem 1rem;
 }
+
+/* ===== CARRUSEL ===== */
+
+/* contenedor (prev | track | next) */
+.carousel{
+  position:relative;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:.5rem;
+  margin-top:.5rem;
+}
+
+/* track horizontal */
+.starships.rack{
+  display:flex;                 /* fila */
+  gap:.75rem;
+  overflow-x:auto;              /* scroll x */
+  padding:.25rem;
+  scroll-snap-type:x proximity; /* snapping suave */
+}
+
+/* cards en carrusel */
+.starships.rack .starship-item{
+  flex:0 0 auto;                /* no encoger */
+  min-width:240px;
+  scroll-snap-align:start;
+}
+
+/* estado visual del activo (opcional) */
+.starships.rack .starship-item.is-active{
+  outline:2px solid rgba(125,211,252,.6);
+  box-shadow:0 12px 36px rgba(0,0,0,.28);
+}
+
+/* botones laterales */
+.car-btn{
+  appearance:none; border:0;
+  width:40px; height:40px; border-radius:8px;
+  background:rgba(255,255,255,.9);
+  cursor:pointer;
+  font-size:24px; line-height:1;
+  display:grid; place-items:center;
+}
+.car-btn[disabled]{ opacity:.4; cursor:not-allowed; }
+
+/* fades laterales (opcionales) */
+.rack-fade{
+  pointer-events:none;
+  position:absolute; top:0; bottom:0; width:60px;
+}
+.rack-fade--left{  left:48px;  background:linear-gradient(90deg, rgba(0,0,0,.24), transparent); }
+.rack-fade--right{ right:48px; background:linear-gradient(270deg, rgba(0,0,0,.24), transparent); }
