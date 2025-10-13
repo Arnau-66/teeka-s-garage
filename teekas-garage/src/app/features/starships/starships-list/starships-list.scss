@@ -40,10 +40,10 @@ $stage-h: clamp(160px, 24vh, 280px);
   mask-image: repeating-linear-gradient(to bottom, rgba(0,0,0,1) 0 2px, rgba(0,0,0,.9) 2px 3px);
 }
 .holo-caption{
+  font-size: 1.5rem;
   margin-top:.35rem; letter-spacing:.12em; text-transform:uppercase;
-  color: rgba(var(--holo-text), 1) !important;
+  color: rgba(85, 56, 231, 0.9);
   text-shadow: 0 0 10px rgba(var(--holo-text),.9), 0 0 26px rgba(var(--holo-text),.5);
-  -webkit-text-stroke: .6px rgba(255,255,255,.35);
 }
 
 /* ---------- Controles (rack oculto) ---------- */
@@ -150,3 +150,31 @@ $stage-h: clamp(160px, 24vh, 280px);
 }
 .pager__prev{ grid-column: 1; justify-self: start; }
 .pager__next{ grid-column: 2; justify-self: end; }
+
+/* Centered action button, above the projector */
+.holo-actions{
+  position: sticky;
+  bottom: calc(var(--projector-h) + 72px); /* súbelo/bájalo si hace falta */
+  z-index: 11;                              /* por delante del proyector/haz */
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.holo-actions .sw-btn__inner{
+  padding: .7rem 1rem;
+}
+
+/* Botón bajo el título dentro del holograma */
+.holo-stage .holo-actions{
+  margin-top: .5rem;                 /* separación bajo el título */
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;              /* habilita clics (el contenedor tiene none) */
+  position: relative;
+  z-index: 11;                       /* por delante de haz/proyector */
+}
+
+.holo-stage .holo-actions .sw-btn__inner{
+  padding: .7rem 1rem;
+}
