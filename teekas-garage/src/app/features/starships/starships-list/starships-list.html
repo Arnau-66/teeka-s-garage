@@ -1,20 +1,6 @@
 <section class="starships-list hangar">
-  
   <div class="hangar__bg" aria-hidden="true"></div>
   <div class="hangar__stars" aria-hidden="true"></div>
-
-  
-  <div class="hangar__scene" aria-hidden="true">
-    <div class="jawa"></div>
-    <div class="holo-emitter">
-      <div class="holo-projection">
-        <img
-          [src]="currentShipImg || '/img/placeholders/ship-placeholder.png'"
-          [attr.alt]="currentShipName ? (currentShipName + ' hologram') : ''"
-          decoding="async" />
-      </div>
-    </div>
-  </div>
 
   <div class="hangar__panel">
     <h2>Starships</h2>
@@ -26,49 +12,72 @@
     </div>
 
     @if (loading()) {
-         <p aria-live="polite">Loading starships...</p>
+      <p aria-live="polite">Loading starships...</p>
     }
-    
     @else if (error()) {
-        <div class="error" role="alert" aria-live="assertive">
-            <p>Ooops! {{ error() }} </p>
-            <button type="button" (click)="fetchPage(1)">Retry</button>
-        </div>
+      <div class="error" role="alert" aria-live="assertive">
+        <p>Ooops! {{ error() }} </p>
+        <button type="button" (click)="fetchPage(1)">Retry</button>
+      </div>
     }
-
     @else {
-      <div class="carousel">
-        
+
+      <!-- HOLOGRAMA CENTRAL (cambia con la card activa) -->
+      <div class="holo-stage" aria-hidden="true">
+        @if (starships().length) {
+          <img
+            [src]="shipImageFrom(starships()[activeIndex()])"
+            [attr.alt]="starships()[activeIndex()].name + ' hologram large'"
+            (error)="onImgError($event)"
+          />
+          <div class="holo-caption aurebesh">
+            {{ starships()[activeIndex()]?.name }}
+          </div>
+        }
+      </div>
+
+      <!-- CARRUSEL “solo hologramas” -->
+      <div class="carousel"
+           role="region"
+           aria-roledescription="carousel"
+           aria-label="Starships carousel">
         <button class="car-btn car-btn--prev"
                 type="button"
                 (click)="goPrevInCarousel()"
-                [disabled]="activeIndex() === 0">
+                [disabled]="activeIndex() === 0"
+                aria-label="Previous">
           ‹
         </button>
-       
-        <ul #rack class="starships rack" (mouseleave)="clearPreview()">
+
+        <ul #rack
+            class="starships rack"
+            role="listbox"
+            [attr.aria-activedescendant]="'ship-' + activeIndex()"
+            (scroll)="onTrackScroll()">
           @for (ship of starships(); track ship.url; let i = $index) {
-            <li class="starship-item"
+            <li class="ship-item"
                 [attr.data-idx]="i"
                 [class.is-active]="i === activeIndex()"
+                [id]="'ship-' + i"
+                role="option"
+                [attr.aria-selected]="i === activeIndex()"
+                [attr.aria-current]="i === activeIndex() ? 'true' : null"
                 (click)="setActiveIndex(i)"
-                (mouseenter)="previewShip(ship, i)"
-                (focus)="previewShip(ship, i)"
-                tabindex="0">
+                tabindex="-1">
 
-              <a class="ship-link"
-                [routerLink]="['/starships', idFromUrl(ship.url)]"
-                aria-label="View details for {{ ship.name }}">
-                <span class="duo-line">
-                  <strong class="ship-name">{{ ship.name }}</strong>
-                  <span class="aurebesh" aria-hidden="true">{{ ship.name }}</span>
-                </span>
-                <span class="duo-line">
-                  <span class="ship-model"> — {{ ship.model }}</span>
-                  <span class="aurebesh" aria-hidden="true">— {{ ship.model }}</span>
-                </span>
+              <!-- Bloque holograma (img + nombre en aurebesh) -->
+              <div class="ship-holo" aria-hidden="true">
+                <img [src]="shipImageFrom(ship)"
+                     [attr.alt]="ship.name + ' hologram'"
+                     (error)="onImgError($event)" />
+                <div class="ship-name aurebesh">{{ ship.name }}</div>
+              </div>
+
+              <!-- Toda la pieza enlaza al detalle (clickable transparente) -->
+              <a class="ship-hit"
+                 [routerLink]="['/starships', idFromUrl(ship.url)]">
+                <span class="sr-only">Open details for {{ ship.name }}</span>
               </a>
-
             </li>
           } @empty {
             <li class="empty">No starships found.</li>
@@ -78,7 +87,8 @@
         <button class="car-btn car-btn--next"
                 type="button"
                 (click)="goNextInCarousel()"
-                [disabled]="activeIndex() >= starships().length - 1">
+                [disabled]="activeIndex() >= starships().length - 1"
+                aria-label="Next">
           ›
         </button>
 
@@ -86,16 +96,15 @@
         <div class="rack-fade rack-fade--right" aria-hidden="true"></div>
       </div>
 
+      <div class="sr-only" aria-live="polite">
+        {{ starships()[activeIndex()]?.name }} selected
+      </div>
+
       <div class="pager bottom">
         <button type="button" (click)="prevPage()" [disabled]="!hasPrev() || loading()">← Prev</button>
         <span>Page {{ currentPage() }}</span>
         <button type="button" (click)="nextPage()" [disabled]="!hasNext() || loading()">More ships →</button>
       </div>
-
     }
- 
   </div>
-
-
-
 </section>

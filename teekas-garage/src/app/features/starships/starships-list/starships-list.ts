@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal, inject, ElementRef, ViewChild, AfterViewChecked, AfterViewInit } from '@angular/core';
+import { Component, OnInit, signal, inject, ElementRef, ViewChild, AfterViewInit, HostListener } from '@angular/core';
 import { StarshipsService } from '../../../core/services/starships.service';
 import { StarshipsListItem, StarshipsResponse } from '../../../core/models/starships';
 import { RouterLink } from '@angular/router';
@@ -11,24 +11,22 @@ import { RouterLink } from '@angular/router';
   templateUrl: './starships-list.html',
   styleUrl: './starships-list.scss'
 })
-
 export class StarshipsListComponent implements OnInit, AfterViewInit {
 
-  loading = signal<boolean>(true);
-  error = signal<string | null>(null);
+  loading   = signal<boolean>(true);
+  error     = signal<string | null>(null);
   starships = signal<StarshipsListItem[]>([]);
 
   currentPage = signal<number>(1);
-  hasNext = signal<boolean>(false);
-  hasPrev = signal<boolean>(false);
+  hasNext     = signal<boolean>(false);
+  hasPrev     = signal<boolean>(false);
 
   activeIndex = signal<number>(0);
-  currentShipImg: string | null = null;
-  currentShipName: string | null = null;
 
-  @ViewChild('carouselTrack') private trackEl?: ElementRef<HTMLUListElement>;
+  @ViewChild('rack') private trackEl?: ElementRef<HTMLUListElement>;
 
   private starshipsService = inject(StarshipsService);
+  private scrollLock = false;
 
   ngOnInit(): void {
     this.fetchPage(1);
@@ -48,48 +46,35 @@ export class StarshipsListComponent implements OnInit, AfterViewInit {
         this.currentPage.set(page);
         this.hasNext.set(!!res.next);
         this.hasPrev.set(!!res.previous);
-
         this.setActiveIndex(0);
       },
       error: (err: unknown) => {
         const msg = err instanceof Error ? err.message : 'Unexpected error';
         this.error.set(msg);
       },
-      complete: () => {
-        this.loading.set(false);
-      },
+      complete: () => this.loading.set(false),
     });
   }
 
-  nextPage(): void {
-    if(this.hasNext()) this.fetchPage(this.currentPage() + 1);
-  }
-
-  prevPage(): void {
-    if (this.hasPrev()) this.fetchPage(this.currentPage() - 1);
-  }
+  nextPage(): void { if (this.hasNext()) this.fetchPage(this.currentPage() + 1); }
+  prevPage(): void { if (this.hasPrev()) this.fetchPage(this.currentPage() - 1); }
 
   idFromUrl(url: string): number {
     const m = url.match(/\/starships\/(\d+)\/?$/);
     return m ? Number(m[1]) : 0;
   }
 
-  private shipImageFrom(ship: StarshipsListItem): string {
+  shipImageFrom(ship: StarshipsListItem): string {
     const id = this.idFromUrl(ship.url);
     return `/img/ships/${id}.png`;
   }
 
-    setActiveIndex(i: number) {
+  setActiveIndex(i: number) {
     const list = this.starships();
     if (!list.length) return;
 
     const clamped = Math.max(0, Math.min(i, list.length - 1));
     this.activeIndex.set(clamped);
-
-    const ship = list[clamped];
-    this.currentShipName = ship?.name ?? null;
-    this.currentShipImg  = ship ? this.shipImageFrom(ship) : null;
-
     this.scrollToActive();
   }
 
@@ -99,25 +84,50 @@ export class StarshipsListComponent implements OnInit, AfterViewInit {
   private scrollToActive() {
     const host = this.trackEl?.nativeElement;
     if (!host) return;
-
     const idx = this.activeIndex();
     const el = host.querySelector<HTMLElement>(`[data-idx="${idx}"]`);
     if (el) {
+      this.scrollLock = true;
       el.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+      setTimeout(() => (this.scrollLock = false), 250);
     }
   }
 
-  previewShip(ship: StarshipsListItem, idx: number) {
-    this.currentShipName = ship.name;
-    this.currentShipImg  = this.shipImageFrom(ship);
-    this.activeIndex.set(idx);
+  // Detecta cuál está más centrado cuando el usuario hace scroll manual
+  onTrackScroll() {
+    if (this.scrollLock) return;
+    const host = this.trackEl?.nativeElement;
+    if (!host) return;
+
+    const children = Array.from(host.querySelectorAll<HTMLElement>('.ship-item'));
+    if (!children.length) return;
+
+    const rackRect = host.getBoundingClientRect();
+    const rackCenterX = rackRect.left + rackRect.width / 2;
+
+    let bestIdx = 0;
+    let bestDist = Number.POSITIVE_INFINITY;
+    children.forEach((el, idx) => {
+      const r = el.getBoundingClientRect();
+      const center = r.left + r.width / 2;
+      const dist = Math.abs(center - rackCenterX);
+      if (dist < bestDist) { bestDist = dist; bestIdx = idx; }
+    });
+
+    if (bestIdx !== this.activeIndex()) {
+      this.activeIndex.set(bestIdx);
+    }
   }
 
-  clearPreview() {
-    const i = this.activeIndex();
-    const ship = this.starships()[i];
-    this.currentShipName = ship?.name ?? null;
-    this.currentShipImg  = ship ? this.shipImageFrom(ship) : null;
+  // Navegación por teclado
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(ev: KeyboardEvent) {
+    if (ev.key === 'ArrowLeft') { ev.preventDefault(); this.goPrevInCarousel(); }
+    if (ev.key === 'ArrowRight') { ev.preventDefault(); this.goNextInCarousel(); }
   }
 
+  onImgError(ev: Event) {
+    const img = ev.target as HTMLImageElement;
+    img.src = '/img/placeholders/ship-placeholder.png';
+  }
 }
