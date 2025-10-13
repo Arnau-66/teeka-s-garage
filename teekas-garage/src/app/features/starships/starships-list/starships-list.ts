@@ -28,11 +28,10 @@ export class StarshipsListComponent implements OnInit, AfterViewInit {
   private starshipsService = inject(StarshipsService);
   private scrollLock = false;
 
-  ngOnInit(): void {
-    this.fetchPage(1);
-  }
+  ngOnInit(): void { this.fetchPage(1); }
 
   ngAfterViewInit(): void {
+    // aunque el rack esté oculto, mantenemos el centrado por consistencia (no hace nada visible)
     queueMicrotask(() => this.scrollToActive());
   }
 
@@ -72,7 +71,6 @@ export class StarshipsListComponent implements OnInit, AfterViewInit {
   setActiveIndex(i: number) {
     const list = this.starships();
     if (!list.length) return;
-
     const clamped = Math.max(0, Math.min(i, list.length - 1));
     this.activeIndex.set(clamped);
     this.scrollToActive();
@@ -93,36 +91,9 @@ export class StarshipsListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Detecta cuál está más centrado cuando el usuario hace scroll manual
-  onTrackScroll() {
-    if (this.scrollLock) return;
-    const host = this.trackEl?.nativeElement;
-    if (!host) return;
-
-    const children = Array.from(host.querySelectorAll<HTMLElement>('.ship-item'));
-    if (!children.length) return;
-
-    const rackRect = host.getBoundingClientRect();
-    const rackCenterX = rackRect.left + rackRect.width / 2;
-
-    let bestIdx = 0;
-    let bestDist = Number.POSITIVE_INFINITY;
-    children.forEach((el, idx) => {
-      const r = el.getBoundingClientRect();
-      const center = r.left + r.width / 2;
-      const dist = Math.abs(center - rackCenterX);
-      if (dist < bestDist) { bestDist = dist; bestIdx = idx; }
-    });
-
-    if (bestIdx !== this.activeIndex()) {
-      this.activeIndex.set(bestIdx);
-    }
-  }
-
-  // Navegación por teclado
   @HostListener('window:keydown', ['$event'])
   onKeyDown(ev: KeyboardEvent) {
-    if (ev.key === 'ArrowLeft') { ev.preventDefault(); this.goPrevInCarousel(); }
+    if (ev.key === 'ArrowLeft')  { ev.preventDefault(); this.goPrevInCarousel(); }
     if (ev.key === 'ArrowRight') { ev.preventDefault(); this.goNextInCarousel(); }
   }
 
