@@ -170,6 +170,7 @@ $stage-h: clamp(160px, 24vh, 280px);
 
 /* Prev arrow always in the left column */
 .car-btn--prev{
+  color: #2863e3;
   grid-column: 1 !important;
   justify-self: start;
 }

@@ -13,14 +13,17 @@
       </a>
 
       @if (starships().length) {
+        @let ship = starships()[activeIndex()];
+
         <a class="sw-btn details-button"
-          [routerLink]="['/starships', idFromUrl(starships()[activeIndex()].url)]"
-          aria-label="View details for {{ starships()[activeIndex()]?.name }}">
+          [routerLink]="['/starships', idFromUrl(ship?.url ?? '')]"
+          [attr.aria-label]="'View details for ' + (ship?.name ?? 'starship')">
           <span class="sw-btn__inner">
             <span class="sw-btn__label">View Details</span>
           </span>
         </a>
       }
+
     </div>
 
     @if (loading()) {
@@ -39,15 +42,19 @@
       <!-- HOLOGRAMA CENTRAL (POR DELANTE DEL PROYECTOR) -->
       <div class="holo-stage" aria-hidden="true">
         @if (starships().length) {
+          @let ship = starships()[activeIndex()];
+
           <img
-            [src]="shipImageFrom(starships()[activeIndex()])"
-            [attr.alt]="starships()[activeIndex()].name + ' hologram'"
+            [src]="shipImageFrom(ship)"
+            [attr.alt]="(ship?.name ?? 'Starship') + ' hologram'"
             (error)="onImgError($event)"
           />
+
           <div class="holo-caption aurebesh">
-            {{ starships()[activeIndex()]?.name }}
+            {{ ship?.name ?? '—' }}
           </div>
         }
+
       </div>
 
       <!-- CONTROLES DEL CARRUSEL (sin lista visible) -->
