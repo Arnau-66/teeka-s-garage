@@ -1,7 +1,99 @@
 .starship-details {
-    position:absolute; 
-    inset:0; 
-    z-index:0;
-    top: -10%; 
-    background:url('/img/garage-background_7.png') center/cover no-repeat;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url('/img/garage-background_8.png') center/cover no-repeat;
+
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  min-height: 100dvh;
+
+  /* Color + glow (usan las variables definidas en styles.scss) */
+  color: var(--holo-text);
+  text-shadow: 0 0 6px var(--holo-glow), 0 0 14px var(--holo-glow);
+  font-family: var(--font-body);
+}
+
+.details-panel {
+  width: min(750px, 100%);
+  margin-inline: auto;
+  padding: clamp(16px, 3vw, 32px);
+  border-radius: 16px;
+  background: rgba(12, 18, 28, 0.65);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+.details-panel h1,
+.details-panel h2,
+.details-panel h3,
+.details-panel h4 {
+  margin: 0 0 .5rem;
+  font-family: var(--font-heading);
+  letter-spacing: -0.015em;
+  color: var(--holo-text-strong);
+  text-shadow: 0 0 6px var(--holo-glow-strong), 0 0 18px var(--holo-glow-strong);
+}
+
+.ship-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.details-panel ul {
+  padding-left: 1.25rem;
+  margin: .5rem 0 1rem;
+  text-shadow: 0 0 6px var(--holo-glow);
+}
+
+/* === Disposición en 2 columnas dentro del artículo === */
+.details-panel article {
+  display: grid;
+  grid-template-columns: 1fr min(40%, 360px); /* texto | imagen */
+  gap: 1.25rem 2rem;
+  align-items: start;
+}
+
+/* La imagen pasa a la columna derecha y se “pega” arriba */
+.ship-image {
+  grid-column: 2;
+  grid-row: 1 / span 99;           /* ocupa la altura de las secciones de la izquierda */
+  margin: 0;                       /* elimina margen del <p> */
+  justify-self: end;               /* pega a la derecha */
+  align-self: start;               
+  position: sticky;                /* opcional: que siga visible al hacer scroll */
+  top: clamp(8px, 3vh, 24px);
+  max-width: min(100%, 360px);     /* no crecer más de su columna */
+}
+
+.ship-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;             /* asegura buen encaje */
+  filter: drop-shadow(0 6px 24px rgba(0,0,0,.35)); /* sutil relieve */
+}
+
+/* Títulos, listas y resto de contenido quedan en la columna izquierda */
+.details-panel article > *:not(.ship-image) {
+  grid-column: 1;
+}
+
+/* === Responsivo: apilar en pantallas pequeñas === */
+@media (max-width: 900px) {
+  .details-panel article {
+    grid-template-columns: 1fr;    /* una sola columna */
+  }
+  .ship-image {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;              /* quita el sticky en móvil */
+    justify-self: center;
+    max-width: min(100%, 420px);   /* un poco más grande en móvil si cabe */
+    margin-block: .5rem 1rem;
+  }
 }

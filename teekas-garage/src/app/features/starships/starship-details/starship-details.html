@@ -1,81 +1,83 @@
 <section class="starship-details">
     <h2>Starship details</h2>
+    <div class="details-panel">
 
-    @if (loading()) {
-        <p aria-live="polite">Loading starship...</p>
-    }
-    @else if (error()) {
-        <div role="alert" class="error">
-            <p>Ooops! {{error()}} </p>
-            <a routerLink="/starships">Back to list</a>
-        </div>
-    }
-    @else if (starship()) {
-        <article>
-        <h3>{{ starship()?.name }}</h3>
-
-        <ul>
-            <li><strong>Model:</strong> {{ starship()?.model }}</li>
-            <li><strong>Manufacturer:</strong> {{ starship()?.manufacturer }}</li>
-            <li><strong>Cost in credits:</strong> {{ starship()?.costInCredits ?? 'unknown' }}</li>
-            <li><strong>Length:</strong> {{ starship()?.length ?? 'unknown' }}</li>
-            <li><strong>Max atmosphering speed:</strong> {{ starship()?.maxAtmospheringSpeed ?? 'n/a' }}</li>
-            <li><strong>Crew:</strong> {{ starship()?.crew }}</li>
-            <li><strong>Passengers:</strong> {{ starship()?.passengers }}</li>
-            <li><strong>Cargo capacity:</strong> {{ starship()?.cargoCapacity }}</li>
-            <li><strong>Consumables:</strong> {{ starship()?.consumables }}</li>
-            <li><strong>Hyperdrive rating:</strong> {{ starship()?.hyperdriveRating }}</li>
-            <li><strong>MGLT:</strong> {{ starship()?.mglt }}</li>
-            <li><strong>Class:</strong> {{ starship()?.starshipClass }}</li>
-        </ul>
-
-        <p class="ship-image">
-            <img
-                [src]="starship()?.imageUrl"
-                alt="Image of {{ starship()?.name }}"
-                width="360"
-                height="220"
-                loading="lazy"
-                (error)="onImgError($event, '/img/placeholder-ship.png')"
-            />
-        </p>
-
-        <h4>Pilots</h4>
-        @if (starship()?.pilots?.length) {
-            <ul class="pilots">
-                @for (p of starship()!.pilots; track p.id) {
-                <li>
-                    <img
-                    [src]="p.imageUrl"
-                    alt="Photo of {{ p.name }}"
-                    width="48" height="48"
-                    (error)="onImgError($event, '/img/placeholder-pilot.png')"
-                    />
-                    <span>{{ p.name }}</span>
-                </li>
-                }
-            </ul>
-            } @else {
-            <p>No known pilots.</p>
+        @if (loading()) {
+            <p aria-live="polite">Loading starship...</p>
         }
-
-        <h4>Films</h4>
-        @if (starship()?.films?.length) {
-            <ul class="films">
-                @for (f of starship()!.films; track f.id) {
-                <li>
-                    <strong>Ep {{ f.episode }}</strong> — {{ f.title }}
-                    <small>({{ f.releaseDate }})</small>
-                </li>
-                }
-            </ul>
-            } @else {
-            <p>Not featured in films.</p>
+        @else if (error()) {
+            <div role="alert" class="error">
+                <p>Ooops! {{error()}} </p>
+                <a routerLink="/starships">Back to list</a>
+            </div>
         }
+        @else if (starship()) {
+            <article>
+            <h3>{{ starship()?.name }}</h3>
 
-        <p>
-            <a routerLink="/starships">⬅ Back to list</a>
-        </p>
-        </article>    
-    }
+            <ul>
+                <li><strong>Model:</strong> {{ starship()?.model }}</li>
+                <li><strong>Manufacturer:</strong> {{ starship()?.manufacturer }}</li>
+                <li><strong>Cost in credits:</strong> {{ starship()?.costInCredits ?? 'unknown' }}</li>
+                <li><strong>Length:</strong> {{ starship()?.length ?? 'unknown' }}</li>
+                <li><strong>Max atmosphering speed:</strong> {{ starship()?.maxAtmospheringSpeed ?? 'n/a' }}</li>
+                <li><strong>Crew:</strong> {{ starship()?.crew }}</li>
+                <li><strong>Passengers:</strong> {{ starship()?.passengers }}</li>
+                <li><strong>Cargo capacity:</strong> {{ starship()?.cargoCapacity }}</li>
+                <li><strong>Consumables:</strong> {{ starship()?.consumables }}</li>
+                <li><strong>Hyperdrive rating:</strong> {{ starship()?.hyperdriveRating }}</li>
+                <li><strong>MGLT:</strong> {{ starship()?.mglt }}</li>
+                <li><strong>Class:</strong> {{ starship()?.starshipClass }}</li>
+            </ul>
+
+            <p class="ship-image">
+                <img
+                    [src]="starship()?.imageUrl"
+                    alt="Image of {{ starship()?.name }}"
+                    width="360"
+                    height="220"
+                    loading="lazy"
+                    (error)="onImgError($event, '/img/placeholder-ship.png')"
+                />
+            </p>
+
+            <h4>Pilots</h4>
+            @if (starship()?.pilots?.length) {
+                <ul class="pilots">
+                    @for (p of starship()!.pilots; track p.id) {
+                    <li>
+                        <img
+                        [src]="p.imageUrl"
+                        alt="Photo of {{ p.name }}"
+                        width="48" height="48"
+                        (error)="onImgError($event, '/img/placeholder-pilot.png')"
+                        />
+                        <span>{{ p.name }}</span>
+                    </li>
+                    }
+                </ul>
+                } @else {
+                <p>No known pilots.</p>
+            }
+
+            <h4>Films</h4>
+            @if (starship()?.films?.length) {
+                <ul class="films">
+                    @for (f of starship()!.films; track f.id) {
+                    <li>
+                        <strong>Ep {{ f.episode }}</strong> — {{ f.title }}
+                        <small>({{ f.releaseDate }})</small>
+                    </li>
+                    }
+                </ul>
+                } @else {
+                <p>Not featured in films.</p>
+            }
+
+            <p>
+                <a routerLink="/starships">⬅ Back to list</a>
+            </p>
+            </article>    
+        }
+    </div>
 </section>
