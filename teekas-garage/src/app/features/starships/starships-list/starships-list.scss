@@ -16,10 +16,9 @@ $stage-h: clamp(160px, 24vh, 280px);
 
 /* ---------- Base ---------- */
 .hangar{ position:relative; min-height:100dvh; padding:2rem 0; overflow:hidden; }
-.hangar__bg{ position:absolute; inset:0; z-index:0; background:url('/img/garage-background.png') center/cover no-repeat; filter:brightness(.45) saturate(1.1); }
+.hangar__bg{ position:absolute; inset:0; z-index:0; background:url('/img/garage-background.png') center/cover no-repeat; }
 .hangar__stars{ position:absolute; inset:0; z-index:1; pointer-events:none; opacity:.25;
-  background-image: radial-gradient(rgba(255,255,255,.8) 1px, transparent 1.5px),
-                    radial-gradient(rgba(255,255,255,.6) 1px, transparent 2px);
+
   background-size: 500px 500px, 800px 800px; background-position: 0 0, 60px 80px;
 }
 .hangar__panel{ position:relative; z-index:3; max-width:$panel-max; margin:0 auto; padding:0 1rem;
@@ -29,7 +28,7 @@ $stage-h: clamp(160px, 24vh, 280px);
 
 /* ---------- Holograma central (delante del proyector) ---------- */
 .holo-stage{
-  position: sticky; top: 18px; z-index: 10; /* por DELANTE del proyector */
+  position: sticky; top: 10%; z-index: 10; /* por DELANTE del proyector */
   display: grid; place-items: center; height: $stage-h; margin-bottom: 1rem; pointer-events: none;
 }
 .holo-stage img{
@@ -42,7 +41,7 @@ $stage-h: clamp(160px, 24vh, 280px);
 .holo-caption{
   font-size: 1.5rem;
   margin-top:.35rem; letter-spacing:.12em; text-transform:uppercase;
-  color: rgba(85, 56, 231, 0.9);
+  color: rgba(26, 46, 120, 0.9);
   text-shadow: 0 0 10px rgba(var(--holo-text),.9), 0 0 26px rgba(var(--holo-text),.5);
 }
 
@@ -73,7 +72,7 @@ $stage-h: clamp(160px, 24vh, 280px);
   display:inline-flex; align-items:center; gap:.45rem;
 }
 .sw-btn__label{ color:#fff; }
-.sw-btn__icon { color:#fff; text-shadow: 0 0 8px rgba(var(--c-holo),.75); font-weight:900; }
+.sw-btn__icon { color:#fff; text-shadow: 0 0 8px rgba(var(--c-holo),.75); font-weight:900;justify-content: center; }
 .sw-btn:hover .sw-btn__inner{ box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 0 18px var(--glow); }
 .sw-btn[disabled] .sw-btn__inner{ opacity:.45; box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
 .car-btn{ z-index:9; }
@@ -91,7 +90,7 @@ $stage-h: clamp(160px, 24vh, 280px);
 /* ---------- Holoproyector (detrás) ---------- */
 .holoprojector{
   position: fixed; left: 50%; bottom: -30%; transform: translateX(-50%);
-  z-index: 7; display: grid; place-items: center; width: min(1200px, 96vw); pointer-events: none;
+  z-index: 2; display: grid; place-items: center; width: min(1200px, 96vw); pointer-events: none;
 }
 .holoprojector__img{
   display:block; height: var(--projector-h); width:auto;
@@ -178,3 +177,22 @@ $stage-h: clamp(160px, 24vh, 280px);
 .holo-stage .holo-actions .sw-btn__inner{
   padding: .7rem 1rem;
 }
+
+/* Back-orbit header with two actions at edges */
+.back-orbit{
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Back to Orbit a la izquierda, View Details a la derecha */
+  gap: .75rem;
+  margin-bottom: .75rem;
+}
+
+/* Opcional: igualar altura visual de ambos botones */
+.back-orbit .sw-btn__inner{
+  padding: .55rem .9rem;
+}
+
+/* Por si hubiera estilos heredados que centren el botón de detalles */
+.back-orbit .details-button{ margin-left: auto; }
+
+

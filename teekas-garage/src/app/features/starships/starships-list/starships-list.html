@@ -11,7 +11,18 @@
           <span class="sw-btn__label">Back to Orbit</span>
         </span>
       </a>
+
+      @if (starships().length) {
+        <a class="sw-btn details-button"
+          [routerLink]="['/starships', idFromUrl(starships()[activeIndex()].url)]"
+          aria-label="View details for {{ starships()[activeIndex()]?.name }}">
+          <span class="sw-btn__inner">
+            <span class="sw-btn__label">View Details</span>
+          </span>
+        </a>
+      }
     </div>
+
 
     @if (loading()) {
       <p aria-live="polite">Loading starships...</p>
@@ -37,18 +48,6 @@
           <div class="holo-caption aurebesh">
             {{ starships()[activeIndex()]?.name }}
           </div>
-
-            <div class="holo-actions">
-              <a class="sw-btn"
-                [routerLink]="['/starships', idFromUrl(starships()[activeIndex()].url)]"
-                aria-label="View details for {{ starships()[activeIndex()]?.name }}">
-                <span class="sw-btn__inner">
-                  <span class="sw-btn__icon" aria-hidden="true">★</span>
-                  <span class="sw-btn__label">View Details</span>
-                </span>
-              </a>
-            </div>
-
         }
       </div>
 
