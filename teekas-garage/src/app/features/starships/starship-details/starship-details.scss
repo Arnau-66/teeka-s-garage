@@ -1,55 +1,68 @@
-.starship-details {
+/* ==============================================
+   STARSHIP DETAILS — HOLO UI (panel tablet)
+   ============================================== */
+
+/* ---------- Escena (fondo y tipografía) ---------- */
+.starship-details{
   position: relative;
   inset: 0;
   z-index: 0;
-  background: url('/img/garage-background_7.png') center/cover no-repeat;
+  background: url('/img/garage-background_7.png') center / cover no-repeat;
   display: grid;
   place-items: center;
   padding: 1rem;
   min-height: 100dvh;
 
-  /* Color + glow (usan las variables definidas en styles.scss) */
+  /* Color + glow (usa variables globales) */
   color: var(--holo-text);
   text-shadow: 0 0 6px var(--holo-glow), 0 0 14px var(--holo-glow);
   font-family: var(--font-body);
 }
 
-@media (orientation: portrait) {
-  .starship-details {
-    overflow-x: auto;     /* ← barra lateral en todo el contenedor */
-    overflow-y: hidden;   /* opcional */
+/* Scroll lateral de seguridad en vertical (mantiene proporciones en móvil) */
+@media (orientation: portrait){
+  .starship-details{
+    overflow-x: auto;
+    overflow-y: hidden; /* opcional */
     -webkit-overflow-scrolling: touch;
   }
 }
 
-.details-panel {
+/* ---------- Panel (tablet) ---------- */
+.details-panel{
+  /* anclado manual a la “tablet” del fondo (ajusta transform/top/left si hiciera falta) */
   position: absolute;
-  transform: translate(-0%, 30%);
+  transform: translate(0%, 30%);
   margin: 0;
+
+  /* tamaño + scroll interno */
   width: min(30%, 100%);
   height: min(410px, 100%);
-  overflow-y: scroll;
-  margin-inline: auto;
+  overflow-y: auto; /* scroll vertical del contenido */
+
+  /* cromado */
   padding: clamp(16px, 3vw, 32px);
   border-radius: 16px;
-  background: rgba(12, 18, 28, 0.65);
+  background: rgba(12,18,28,.65);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-    --fz-base: 0.95rem;    /* tamaño base (≈14–15px si root=16px) */
-  --lh: 1.35;            /* interlineado compacto */
-  --fz-h3: 1.08rem;      /* título principal del panel */
-  --fz-h4: 0.98rem;      /* subtítulos (Pilots/Films) */
-  --space-y: .4rem;      /* espaciado vertical base */
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+
+  /* variables tipográficas locales */
+  --fz-base: .95rem;  /* ≈15px con root=16px */
+  --lh: 1.35;
+  --fz-h3: 1.08rem;
+  --fz-h4: .98rem;
 
   font-size: var(--fz-base);
   line-height: var(--lh);
 }
 
+/* Titulares del panel */
 .details-panel h1,
 .details-panel h2,
 .details-panel h3,
-.details-panel h4 {
+.details-panel h4{
   margin: 0 0 .5rem;
   font-family: var(--font-heading);
   letter-spacing: -0.015em;
@@ -57,91 +70,38 @@
   text-shadow: 0 0 6px var(--holo-glow-strong), 0 0 18px var(--holo-glow-strong);
 }
 
-.ship-image img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin-inline: auto;
-}
-
-.details-panel ul {
+/* Listas del panel (specs/pilots/films) */
+.details-panel ul{
   padding-left: 1.25rem;
   margin: .5rem 0 1rem;
   text-shadow: 0 0 6px var(--holo-glow);
+  /* límite defensivo si hay demasiados items (el panel ya tiene su propio scroll) */
   max-height: 62vh;
   overflow: auto;
 }
 
-/* === Disposición en 2 columnas dentro del artículo === */
-.details-panel article {
+/* ---------- Layout de contenido ---------- */
+/* Grid principal del artículo: texto izquierda | imagen derecha */
+.details-panel article{
   display: grid;
-  grid-template-columns: 1fr min(40%, 360px); /* texto | imagen */
+  grid-template-columns: 1fr min(40%, 360px);
   gap: 1.25rem 2rem;
   align-items: start;
 }
 
-/* La imagen pasa a la columna derecha y se “pega” arriba */
-.ship-image {
-  grid-column: 2;
-  grid-row: 1;           /* ocupa la altura de las secciones de la izquierda */
-  margin: 0;                       /* elimina margen del <p> */
-  justify-self: end;               /* pega a la derecha */
-  align-self: start;               
-  position: sticky;                /* opcional: que siga visible al hacer scroll */
-  top: clamp(8px, 3vh, 24px);
-  max-width: min(100%, 360px);     /* no crecer más de su columna */
-}
-
-.ship-image img {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: contain;             /* asegura buen encaje */
-  filter: drop-shadow(0 6px 24px rgba(0,0,0,.35)); /* sutil relieve */
-}
-
-/* Títulos, listas y resto de contenido quedan en la columna izquierda */
-.details-panel article > *:not(.ship-image):not(.meta):not(.top){
-  grid-column: 1;
-}
-
-
-/* === Bloque inferior: Pilots (izq) + Films (dcha) en 2 columnas === */
-.meta {
-  grid-column: 1 / -1;                 /* se queda en la columna izquierda del article */
+/* Wrapper superior: detalles (izq) + imagen (dcha) */
+.top{
+  grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* dos columnas iguales */
-  gap: 1rem 2rem;                 /* espacio entre filas y columnas */
-  align-items: start;
-  margin-top: .5rem;
-}
-
-.meta__col--pilots { grid-column: 1; }
-.meta__col--films  { grid-column: 2; }
-
-.meta__col h4 {
-  margin-top: 0;                  /* limpia posible espacio extra */
-}
-
-/* Listas más compactas aquí si lo necesitas */
-.meta .pilots,
-.meta .films {
-  margin: .25rem 0 0;
-  padding-left: 1.25rem;          /* consistente con el resto */
-}
-
-/* (B) Wrapper superior: detalles (izq) + imagen (dcha) */
-.top {
-  grid-column: 1 / -1;                 /* ocupa el ancho completo del article */
-  display: grid;
-  grid-template-columns: 1fr min(40%, 360px); /* izquierda detalles | derecha imagen */
+  grid-template-columns: 1fr min(40%, 360px);
   gap: 1.25rem 2rem;
   align-items: start;
 }
 
-/* Colocación interna */
-.top .specs       { grid-column: 1; }
-.top .ship-image  {
+.top .specs{ grid-column: 1; }
+
+/* Imagen (pegada a la derecha y sticky) */
+.ship-image{
   grid-column: 2;
   grid-row: 1;
   margin: 0;
@@ -151,9 +111,7 @@
   top: clamp(8px, 3vh, 24px);
   max-width: min(100%, 360px);
 }
-
-/* La imagen dentro (reusa tus estilos actuales) */
-.top .ship-image img {
+.ship-image img{
   display: block;
   width: 100%;
   height: auto;
@@ -161,25 +119,38 @@
   filter: drop-shadow(0 6px 24px rgba(0,0,0,.35));
 }
 
+/* Cualquier hijo (excepto ship-image/meta/top) va en la columna izquierda */
+.details-panel article > *:not(.ship-image):not(.meta):not(.top){
+  grid-column: 1;
+}
 
-/* EJEMPLO: copia SOLO esto si no es global */
-.back-orbit {
-  position: fixed;         /* o absolute si así lo tenías */
+/* ---------- Bloque inferior: Pilots (izq) + Films (dcha) ---------- */
+.meta{
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 2rem;
+  align-items: start;
+  margin-top: .5rem;
+}
+.meta__col--pilots{ grid-column: 1; }
+.meta__col--films { grid-column: 2; }
+
+.meta .pilots,
+.meta .films{
+  margin: .25rem 0 0;
+  padding-left: 1.25rem;
+}
+
+/* ---------- Botón Back to list (estilo aislado) ---------- */
+/* Si el “Back to orbit” del listado vive en top:16/left:16, replicamos ubicación */
+.back-list{
+  position: fixed;
   top: 16px;
   left: 16px;
   z-index: 1000;
 }
-
-/* === Back to list — copia del look del botón de Orbit, pero aislado === */
-.back-list {
-  position: fixed;     /* mismo lugar en pantalla que el de la lista */
-  top: 16px;
-  left: 16px;
-  z-index: 1000;
-}
-
-/* Estilo de píldora con borde, blur y subrayado morado */
-.back-list .sw-btn--list {
+.back-list .sw-btn--list{
   --btn-text: #fff;
   --btn-border: rgba(255,255,255,.55);
   --btn-bg: rgba(255,255,255,.06);
@@ -203,22 +174,19 @@
   text-shadow: var(--btn-glow);
   transition: transform .12s ease, border-color .2s, background .2s, box-shadow .2s;
 }
-
-.back-list .sw-btn--list:hover {
+.back-list .sw-btn--list:hover{
   transform: translateY(-1px);
   border-color: rgba(255,255,255,.8);
   background: rgba(255,255,255,.09);
 }
-
-.back-list .sw-btn__icon { font-size: 1rem; opacity: .95; }
-
-.back-list .sw-btn__label {
+.back-list .sw-btn__icon{ font-size: 1rem; opacity: .95; }
+.back-list .sw-btn__label{
   border-bottom: 2px solid #7b5cff; /* subrayado morado como en la lista */
   line-height: 1.05;
 }
 
-/* Ajuste para pantallas pequeñas */
-@media (max-width: 480px) {
-  .back-list { top: 12px; left: 12px; }
-  .back-list .sw-btn--list { padding: .35rem .75rem; border-radius: 12px; }
+/* ---------- Responsivo mínimo ---------- */
+@media (max-width: 480px){
+  .back-list{ top: 12px; left: 12px; }
+  .back-list .sw-btn--list{ padding: .35rem .75rem; border-radius: 12px; }
 }
