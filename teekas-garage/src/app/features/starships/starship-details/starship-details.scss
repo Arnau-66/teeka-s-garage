@@ -97,3 +97,34 @@
     margin-block: .5rem 1rem;
   }
 }
+
+/* === Bloque inferior: Pilots (izq) + Films (dcha) en 2 columnas === */
+.meta {
+  grid-column: 1;                 /* se queda en la columna izquierda del article */
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* dos columnas iguales */
+  gap: 1rem 2rem;                 /* espacio entre filas y columnas */
+  align-items: start;
+  margin-top: .5rem;
+}
+
+.meta__col h4 {
+  margin-top: 0;                  /* limpia posible espacio extra */
+}
+
+/* Listas más compactas aquí si lo necesitas */
+.meta .pilots,
+.meta .films {
+  margin: .25rem 0 0;
+  padding-left: 1.25rem;          /* consistente con el resto */
+}
+
+/* === Responsivo: apilar Pilots y Films en pantallas pequeñas === */
+@media (max-width: 900px) {
+  .meta {
+    grid-template-columns: 1fr;   /* una columna en móvil */
+    gap: .75rem;
+  }
+}
+
+

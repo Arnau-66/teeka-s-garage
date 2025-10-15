@@ -12,6 +12,14 @@ import {
     FilmItem
  } from "../models/starships";
 
+function localPublicShipImageUrl(id: number): string {
+  return `/img/ships/${id}.png`;
+}
+
+function localPublicPilotImageUrl(id: number): string {
+  return `/img/pilots/${id}.png`;
+}
+
 function idFromUrl(url: string): number {
     const match = url.match(/\/starships\/(\d+)\/?$/);
     return match ? Number(match[1]) : 0;
@@ -56,7 +64,7 @@ function mapStarshipDetails(raw: StarshipDetailsResponse): StarshipDetailsItem {
         starshipClass: raw.starship_class,
         pilotUrls: raw.pilots ?? [],
         filmUrls: raw.films ?? [],
-        imageUrl: shipImageUrl(id),
+        imageUrl: localPublicShipImageUrl(id),
 
     };    
 }
@@ -113,7 +121,7 @@ export class StarshipsService {
             map(people =>
                 people.map(p => {
                     const id = idFromUrlKind(p.url, 'people');
-                    return { id, name: p.name, imageUrl: characterImageUrl(id)} as PilotItem;
+                    return { id, name: p.name, imageUrl: localPublicPilotImageUrl(id)} as PilotItem;
                 })
             ),
             catchError(() => of([] as PilotItem[]))
