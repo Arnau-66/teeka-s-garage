@@ -2,7 +2,7 @@
   position: relative;
   inset: 0;
   z-index: 0;
-  background: url('/img/garage-background_6.png') center/cover no-repeat;
+  background: url('/img/garage-background_7.png') center/cover no-repeat;
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -18,7 +18,7 @@
   position: absolute;
   transform: translate(-0%, 30%);
   margin: 0;
-  width: min(750px, 100%);
+  width: min(600px, 100%);
   margin-inline: auto;
   padding: clamp(16px, 3vw, 32px);
   border-radius: 16px;
@@ -26,6 +26,14 @@
   backdrop-filter: blur(6px);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    --fz-base: 0.95rem;    /* tamaño base (≈14–15px si root=16px) */
+  --lh: 1.35;            /* interlineado compacto */
+  --fz-h3: 1.08rem;      /* título principal del panel */
+  --fz-h4: 0.98rem;      /* subtítulos (Pilots/Films) */
+  --space-y: .4rem;      /* espaciado vertical base */
+
+  font-size: var(--fz-base);
+  line-height: var(--lh);
 }
 
 .details-panel h1,
