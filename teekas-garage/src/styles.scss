@@ -46,3 +46,24 @@ body {
     0 0 18px var(--holo-glow-strong),
     0 0 28px rgba(125, 211, 255, .45);
 }
+
+/* ===== Scrollbars azulados (global) ===== */
+:root{
+  --scroll-thumb: #47C8FF;                 /* azul vibrante */
+  --scroll-track: rgba(255,255,255,.08);   /* pista sutil */
+}
+
+/* Tamaño de barra (necesario para que se vea el cambio en WebKit/Chromium) */
+.starship-details::-webkit-scrollbar { height: 10px; }   /* horizontal */
+.details-panel::-webkit-scrollbar     { width: 10px; }   /* vertical */
+
+/* Colores — WebKit/Chromium (Chrome/Edge/Safari) */
+.starship-details::-webkit-scrollbar-thumb { background-color: var(--scroll-thumb); border-radius: 8px; }
+.starship-details::-webkit-scrollbar-track { background: var(--scroll-track);        border-radius: 8px; }
+
+.details-panel::-webkit-scrollbar-thumb { background-color: var(--scroll-thumb); border-radius: 8px; }
+.details-panel::-webkit-scrollbar-track { background: var(--scroll-track);       border-radius: 8px; }
+
+/* Colores — Firefox */
+.starship-details { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) var(--scroll-track); }
+.details-panel    { scrollbar-width: thin; scrollbar-color: var(--scroll-thumb) var(--scroll-track); }
