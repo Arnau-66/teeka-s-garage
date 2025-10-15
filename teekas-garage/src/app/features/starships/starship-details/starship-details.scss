@@ -1,9 +1,8 @@
 .starship-details {
-  position: absolute;
+  position: relative;
   inset: 0;
   z-index: 0;
-  background: url('/img/garage-background_8.png') center/cover no-repeat;
-
+  background: url('/img/garage-background_6.png') center/cover no-repeat;
   display: grid;
   place-items: center;
   padding: 1rem;
@@ -16,6 +15,9 @@
 }
 
 .details-panel {
+  position: absolute;
+  transform: translate(-0%, 30%);
+  margin: 0;
   width: min(750px, 100%);
   margin-inline: auto;
   padding: clamp(16px, 3vw, 32px);
@@ -48,6 +50,8 @@
   padding-left: 1.25rem;
   margin: .5rem 0 1rem;
   text-shadow: 0 0 6px var(--holo-glow);
+  max-height: 62vh;
+  overflow: auto;
 }
 
 /* === Disposición en 2 columnas dentro del artículo === */
