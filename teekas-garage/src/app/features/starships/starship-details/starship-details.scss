@@ -61,7 +61,7 @@
 /* La imagen pasa a la columna derecha y se “pega” arriba */
 .ship-image {
   grid-column: 2;
-  grid-row: 1 / span 99;           /* ocupa la altura de las secciones de la izquierda */
+  grid-row: 1;           /* ocupa la altura de las secciones de la izquierda */
   margin: 0;                       /* elimina margen del <p> */
   justify-self: end;               /* pega a la derecha */
   align-self: start;               
@@ -79,7 +79,7 @@
 }
 
 /* Títulos, listas y resto de contenido quedan en la columna izquierda */
-.details-panel article > *:not(.ship-image) {
+.details-panel article > *:not(.ship-image):not(.meta){
   grid-column: 1;
 }
 
@@ -100,13 +100,16 @@
 
 /* === Bloque inferior: Pilots (izq) + Films (dcha) en 2 columnas === */
 .meta {
-  grid-column: 1;                 /* se queda en la columna izquierda del article */
+  grid-column: 1 / -1;                 /* se queda en la columna izquierda del article */
   display: grid;
   grid-template-columns: 1fr 1fr; /* dos columnas iguales */
   gap: 1rem 2rem;                 /* espacio entre filas y columnas */
   align-items: start;
   margin-top: .5rem;
 }
+
+.meta__col--pilots { grid-column: 1; }
+.meta__col--films  { grid-column: 2; }
 
 .meta__col h4 {
   margin-top: 0;                  /* limpia posible espacio extra */
