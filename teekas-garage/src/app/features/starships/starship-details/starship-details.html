@@ -1,14 +1,14 @@
 <section class="starship-details" #scene>
 
-      <div class="back-orbit">
-        <a routerLink="/starships" class="sw-btn orbit-button" aria-label="Back to list">
+    <div class="back-list">
+        <a routerLink="/starships" class="sw-btn sw-btn--list" aria-label="Back to list">
         <span class="sw-btn__inner">
             <span class="sw-btn__icon" aria-hidden="true">⟵</span>
             <span class="sw-btn__label">Back to list</span>
         </span>
         </a>
     </div>
-    
+
     <div class="details-panel" #panel>
         <div class="panel-content">
             @if (loading()) {

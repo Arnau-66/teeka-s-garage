@@ -169,3 +169,56 @@
   left: 16px;
   z-index: 1000;
 }
+
+/* === Back to list — copia del look del botón de Orbit, pero aislado === */
+.back-list {
+  position: fixed;     /* mismo lugar en pantalla que el de la lista */
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+}
+
+/* Estilo de píldora con borde, blur y subrayado morado */
+.back-list .sw-btn--list {
+  --btn-text: #fff;
+  --btn-border: rgba(255,255,255,.55);
+  --btn-bg: rgba(255,255,255,.06);
+  --btn-shadow: 0 6px 20px rgba(0,0,0,.35);
+  --btn-glow: 0 0 6px rgba(71,200,255,.45);
+
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .4rem .9rem;
+  border: 1px solid var(--btn-border);
+  border-radius: 14px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  text-decoration: none;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: .2px;
+  box-shadow: var(--btn-shadow);
+  backdrop-filter: blur(6px);
+  text-shadow: var(--btn-glow);
+  transition: transform .12s ease, border-color .2s, background .2s, box-shadow .2s;
+}
+
+.back-list .sw-btn--list:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,.8);
+  background: rgba(255,255,255,.09);
+}
+
+.back-list .sw-btn__icon { font-size: 1rem; opacity: .95; }
+
+.back-list .sw-btn__label {
+  border-bottom: 2px solid #7b5cff; /* subrayado morado como en la lista */
+  line-height: 1.05;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 480px) {
+  .back-list { top: 12px; left: 12px; }
+  .back-list .sw-btn--list { padding: .35rem .75rem; border-radius: 12px; }
+}
