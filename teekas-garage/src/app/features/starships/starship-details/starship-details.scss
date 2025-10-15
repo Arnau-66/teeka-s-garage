@@ -162,3 +162,10 @@
 }
 
 
+/* EJEMPLO: copia SOLO esto si no es global */
+.back-orbit {
+  position: fixed;         /* o absolute si así lo tenías */
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+}
