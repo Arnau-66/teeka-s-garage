@@ -14,11 +14,21 @@
   font-family: var(--font-body);
 }
 
+@media (orientation: portrait) {
+  .starship-details {
+    overflow-x: auto;     /* ← barra lateral en todo el contenedor */
+    overflow-y: hidden;   /* opcional */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 .details-panel {
   position: absolute;
   transform: translate(-0%, 30%);
   margin: 0;
-  width: min(600px, 100%);
+  width: min(30%, 100%);
+  height: min(410px, 100%);
+  overflow-y: scroll;
   margin-inline: auto;
   padding: clamp(16px, 3vw, 32px);
   border-radius: 16px;
@@ -95,20 +105,6 @@
   grid-column: 1;
 }
 
-/* === Responsivo: apilar en pantallas pequeñas === */
-@media (max-width: 900px) {
-  .details-panel article {
-    grid-template-columns: 1fr;    /* una sola columna */
-  }
-  .ship-image {
-    grid-column: 1;
-    grid-row: auto;
-    position: static;              /* quita el sticky en móvil */
-    justify-self: center;
-    max-width: min(100%, 420px);   /* un poco más grande en móvil si cabe */
-    margin-block: .5rem 1rem;
-  }
-}
 
 /* === Bloque inferior: Pilots (izq) + Films (dcha) en 2 columnas === */
 .meta {
