@@ -79,7 +79,7 @@
 }
 
 /* Títulos, listas y resto de contenido quedan en la columna izquierda */
-.details-panel article > *:not(.ship-image):not(.meta){
+.details-panel article > *:not(.ship-image):not(.meta):not(.top){
   grid-column: 1;
 }
 
@@ -122,12 +122,35 @@
   padding-left: 1.25rem;          /* consistente con el resto */
 }
 
-/* === Responsivo: apilar Pilots y Films en pantallas pequeñas === */
-@media (max-width: 900px) {
-  .meta {
-    grid-template-columns: 1fr;   /* una columna en móvil */
-    gap: .75rem;
-  }
+/* (B) Wrapper superior: detalles (izq) + imagen (dcha) */
+.top {
+  grid-column: 1 / -1;                 /* ocupa el ancho completo del article */
+  display: grid;
+  grid-template-columns: 1fr min(40%, 360px); /* izquierda detalles | derecha imagen */
+  gap: 1.25rem 2rem;
+  align-items: start;
+}
+
+/* Colocación interna */
+.top .specs       { grid-column: 1; }
+.top .ship-image  {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  justify-self: end;
+  align-self: start;
+  position: sticky;
+  top: clamp(8px, 3vh, 24px);
+  max-width: min(100%, 360px);
+}
+
+/* La imagen dentro (reusa tus estilos actuales) */
+.top .ship-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 24px rgba(0,0,0,.35));
 }
 
 
