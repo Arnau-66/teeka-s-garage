@@ -1,4 +1,7 @@
-# 🛠️ Teeka's Garage
+# Teeka's Garage
+
+<img width="1000" height="auto" alt="README-IMG-1" src="https://github.com/user-attachments/assets/d6870120-22c7-44f3-85d2-5ca3fc10b5eb" />
+
 
 **Teeka's Garage** is a learning project built with **Angular** that consumes the **Star Wars API (SWAPI)** to display a list of starships and their details.  
 It’s part of a technical exercise inspired by a real front-end developer test from an e-commerce company in Barcelona.  
@@ -20,10 +23,21 @@ The sprint requested the following key elements:
 
 Teeka's Garage implements all these points through an immersive Star Wars–themed interface:
 
-- 🌍 **Home:** A preview of **Tatooine** acts as the entry screen to the experience.  
-- 🛑 **Login:** Styled as an **Imperial control checkpoint**, where users enter their credentials.  
-- 🛠️ **Starships Page:** Teeka welcomes you to her shop and presents a **holographic catalog** of starships.  
+- 🌍 **Home:** A preview of **Tatooine** acts as the entry screen to the experience.
+  
+  <img width="1000" height="auto" alt="README-IMG-2" src="https://github.com/user-attachments/assets/11d1c7d8-5a92-43ed-9ce2-20a18b455c12" />
+
+- 🛑 **Login:** Styled as an **Imperial control checkpoint**, where users enter their credentials.
+
+  <img width="1000" height="auto" alt="README-IMG-3" src="https://github.com/user-attachments/assets/3f87618b-618b-426e-b444-1448372c72ec" />
+   
+- 🛠️ **Starships Page:** Teeka welcomes you to her shop and presents a **holographic catalog** of starships.
+
+  <img width="1000" height="auto" alt="README-IMG-4" src="https://github.com/user-attachments/assets/70ad6265-f225-4d7f-a5a3-9bfc4a3e49be" />
+
 - 📋 **Starship Details Page:** Teeka uses her **data pad** to show the full specs of the selected ship.
+
+  <img width="1000" height="auto" alt="README-IMG-5" src="https://github.com/user-attachments/assets/8fdd4842-564c-4d27-9826-b3e74ad944a4" />
 
 ---
 
