@@ -106,7 +106,7 @@ describe('LoginComponent', () => {
   it('should call auth.login with email & password on submit (login mode)', fakeAsync(() => {
     // Preparamos el formulario con valores válidos en modo login.
     component.form.patchValue({
-      email: 'vader@empire.gov', // email con formato válido
+      email: 'vader@example.com', // email con formato válido
       password: 'deathstar',     // password >= 6 chars
     });
 
@@ -124,7 +124,7 @@ describe('LoginComponent', () => {
     flushMicrotasks();
 
     // Afirmamos que se llamó al mock de login EXACTAMENTE una vez y con los parámetros correctos.
-    expect(mockAuth.login).toHaveBeenCalledOnceWith('vader@empire.gov', 'deathstar');
+    expect(mockAuth.login).toHaveBeenCalledOnceWith('vader@example.com', 'deathstar');
 
     // Y que NO se llamó a register (porque seguimos en modo login).
     expect(mockAuth.register).not.toHaveBeenCalled();
@@ -139,7 +139,7 @@ describe('LoginComponent', () => {
     // Rellenamos TODOS los campos necesarios para registro (name también es requerido por la lógica).
     component.form.patchValue({
       name: 'Darth Vader',
-      email: 'vader@empire.gov',
+      email: 'vader@example.com',
       password: 'deathstar',
     });
 
@@ -148,7 +148,7 @@ describe('LoginComponent', () => {
     flushMicrotasks(); // resolvemos Promises simuladas.
 
     // Debe haberse llamado a register con name, email y password.
-    expect(mockAuth.register).toHaveBeenCalledOnceWith('Darth Vader', 'vader@empire.gov', 'deathstar');
+    expect(mockAuth.register).toHaveBeenCalledOnceWith('Darth Vader', 'vader@example.com', 'deathstar');
 
     // Y NO a login.
     expect(mockAuth.login).not.toHaveBeenCalled();
@@ -161,7 +161,7 @@ describe('LoginComponent', () => {
 
     // Preparamos un form válido (modo login por defecto).
     component.form.patchValue({
-      email: 'vader@empire.gov',
+      email: 'vader@example.com',
       password: 'deathstar',
     });
 
@@ -180,7 +180,7 @@ describe('LoginComponent', () => {
 
     // Form válido, pero el mock fallará.
     component.form.patchValue({
-      email: 'vader@empire.gov',
+      email: 'vader@example.com',
       password: 'wrong',
     });
 
@@ -206,7 +206,7 @@ describe('LoginComponent', () => {
     // Dejamos el 'name' vacío a propósito para verificar la pista (hint) del template.
     component.form.patchValue({
       name: '', // Falta el nombre
-      email: 'luke@rebellion.org',
+      email: 'luke@example.org',
       password: 'theforce',
     });
 

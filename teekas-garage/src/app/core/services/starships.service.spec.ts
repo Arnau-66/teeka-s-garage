@@ -1,5 +1,5 @@
 import { TestBed } from "@angular/core/testing";
-import { HttpClientTestingModule, HttpTestingController } from "@angular/common/http/testing";
+import { HttpTestingController } from "@angular/common/http/testing";
 import { StarshipsService } from "./starships.service";
 import { environment } from "../../../environments/environment";
 import { StarshipDetailsResponse } from "../models/starships";
@@ -11,7 +11,6 @@ describe ('StarshipsService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule],
             providers: [StarshipsService]
         });
 
