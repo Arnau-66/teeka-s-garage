@@ -24,7 +24,7 @@ describe ('StarshipsService', () => {
     });
 
     it('should fetch starship details from primary API and map response',() => {
-        const mockResponse: StarshipDetailsResponse = {
+        const mockResponse: Partial<StarshipDetailsResponse> = {
             name: 'Death Star',
             model: 'DS-1 Orbital Battle Station',
             manufacturer: 'Imperial Department of Military Research',

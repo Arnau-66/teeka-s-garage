@@ -1,22 +1,171 @@
-# 🌿 Develop Branch – Teeka's Garage
+# 🛠️ Teeka's Garage
 
-This branch contains the **most up-to-date working version** of the project.  
-It is used for **active development**, including new features, fixes, and improvements before they are merged into the `main` branch.
-
-## 🧭 Branch Purpose
-
-- 💻 Implement new functionality and iterate on features.  
-- 🧪 Test changes in a development environment.  
-- 🔄 Serve as the integration branch for future pull requests.
-
-> ⚠️ Code in this branch may change frequently and might not always be completely stable.
-
-## 📌 Workflow
-
-- New features should be developed in separate `feature/*` branches.  
-- Once tested, they are merged into `develop`.  
-- Periodically, stable versions from `develop` are merged into `main` for release.
+**Teeka's Garage** is a learning project built with **Angular** that consumes the **Star Wars API (SWAPI)** to display a list of starships and their details.  
+It’s part of a technical exercise inspired by a real front-end developer test from an e-commerce company in Barcelona.  
+The goal is to practice **API integration**, **routing**, **services**, **authentication**, and **clean architecture** while exploring the Star Wars universe 🚀✨.
 
 ---
 
-👨‍💻 *Teeka's Garage – IT Academy Front-End Bootcamp (2025)*
+## 📖 Project Overview
+
+**Teeka's Garage** recreates the atmosphere of **Tatooine’s starship shop**, run by the famous Jawa **Teeka** from Star Wars.  
+This theme is used to structure and present the different required parts of the **IT Academy Barcelona – Sprint 7** exercise.  
+
+The sprint requested the following key elements:
+
+- 🏠 A **Home menu**  
+- 🔐 A **Login page** with **name and email validation**, using a Firebase database as backend  
+- 🚀 A **main page** displaying a **list of starships**, fetched from the **Star Wars API**  
+- 📄 A **detail page** showing the **specifications of a selected starship**, using the same API  
+
+Teeka's Garage implements all these points through an immersive Star Wars–themed interface:
+
+- 🌍 **Home:** A preview of **Tatooine** acts as the entry screen to the experience.  
+- 🛑 **Login:** Styled as an **Imperial control checkpoint**, where users enter their credentials.  
+- 🛠️ **Starships Page:** Teeka welcomes you to her shop and presents a **holographic catalog** of starships.  
+- 📋 **Starship Details Page:** Teeka uses her **data pad** to show the full specs of the selected ship.
+
+---
+
+## 🌌 App Pages & Features
+
+| Page                     | Description                                                                                 |
+|---------------------------|---------------------------------------------------------------------------------------------|
+| 🏠 **Home**               | Introductory screen showing Tatooine and allowing users to navigate into the app.           |
+| 🔐 **Login**              | Simulates an Imperial access panel. Name and email are validated and stored in Firebase.    |
+| 🚀 **Starships**          | Fetches starship data from SWAPI and displays it in a clean holographic catalog UI.        |
+| 📋 **Starship Details**   | Displays detailed information about the selected starship, fetched from the same API.      |
+
+---
+
+## 🧰 Technologies & Tools
+
+- **Angular 20.3.4** (standalone components, SCSS)  
+- **Firebase** – For user data and login validation  
+- **SWAPI – Star Wars API**  
+- **Star Wars Visual Guide** – Image assets  
+- **Postman** – API testing tool  
+- **Git & GitHub** – Version control and collaboration  
+- **Node.js & npm** – Package management & Angular CLI
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to run the project locally from scratch:
+
+### 1. 📦 Install Node.js and Angular CLI
+
+- **Check Node.js**  
+  ```bash
+  node -v
+  npm -v
+  ```
+  Make sure you have Node.js LTS (≥ 18.x) and npm installed.
+
+- **Install Angular CLI globally**  
+  ```bash
+  npm install -g @angular/cli
+  ```
+
+- **Verify Angular CLI**  
+  ```bash
+  ng version
+  ```
+
+---
+
+### 2. ⬇️ Clone the repository
+
+```bash
+git clone <your-repo-url>
+cd <your-project-folder>
+```
+
+> ⚠️ If your local folder name differs from the repo name, adjust the `cd` command accordingly.
+
+---
+
+### 3. 📥 Install dependencies
+
+```bash
+npm install
+```
+
+This will download all the required Node modules for the Angular project.
+
+---
+
+### 4. 🧪 Start the development server
+
+```bash
+ng serve
+```
+
+Then open http://localhost:4200 in your browser.
+
+The server will **automatically reload** when you change any source file.
+
+---
+
+### 5. 🧱 Build for production
+
+```bash
+ng build
+```
+
+The build artifacts will be stored in the `dist/` directory.  
+You can serve them with any static server, for example:
+
+```bash
+npx http-server dist/<project-folder> -p 4200
+```
+
+> Replace `<project-folder>` with the actual folder produced inside `dist/` (Angular may sanitize special characters).
+
+---
+
+### 6. 🧪 Run tests
+
+```bash
+ng test
+```
+
+This will execute unit tests via **Karma**.
+
+---
+
+## 🧭 Project Structure
+
+```
+src/
+  app/
+    core/
+      services/        ← API calls, data handling
+      models/          ← Interfaces & types
+    features/
+      starships/       ← List & Detail components
+    shared/
+      ui/              ← Reusable UI components
+  public/
+    img/             ← forced fallback img data (Star Wats Guide is not working)
+```
+
+---
+
+## 📌 TO DO
+  
+- Further improvements such as guards, more advanced error handling, and UI enhancements can be added.
+- More coherence on graphic design styles and motive.
+- Animations between starships-list and starships-details
+- Responsive design
+- Cleaner code (carousel substitution)
+- This README will be updated as the project evolves.
+
+---
+
+## 👨‍💻 Author
+
+**Teeka's Garage** is developed as part of the **IT Academy Front-End Bootcamp** 🧠💻  
+
+Arnau Pérez, Barcelona, 2025.
