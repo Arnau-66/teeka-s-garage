@@ -151,11 +151,11 @@
   z-index: 1000;
 }
 .back-list .sw-btn--list{
-  --btn-text: #fff;
+  --btn-text: rgb(237, 201, 153);
   --btn-border: rgba(255,255,255,.55);
   --btn-bg: rgba(255,255,255,.06);
   --btn-shadow: 0 6px 20px rgba(0,0,0,.35);
-  --btn-glow: 0 0 6px rgba(71,200,255,.45);
+  --btn-glow: 0 0 6px rgba(192, 134, 48, 0.729);
 
   display: inline-flex;
   align-items: center;
@@ -170,20 +170,21 @@
   line-height: 1;
   letter-spacing: .2px;
   box-shadow: var(--btn-shadow);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(15px);
   text-shadow: var(--btn-glow);
   transition: transform .12s ease, border-color .2s, background .2s, box-shadow .2s;
 }
 .back-list .sw-btn--list:hover{
   transform: translateY(-1px);
   border-color: rgba(255,255,255,.8);
-  background: rgba(255,255,255,.09);
+  background: rgba(178, 115, 19, 0.833);
 }
 .back-list .sw-btn__icon{ font-size: 1rem; opacity: .95; }
 .back-list .sw-btn__label{
-  border-bottom: 2px solid #7b5cff; /* subrayado morado como en la lista */
+  border-bottom: 2px solid #7a5cff00; /* subrayado morado como en la lista */
   line-height: 1.05;
 }
+
 
 /* ---------- Responsivo mínimo ---------- */
 @media (max-width: 480px){
