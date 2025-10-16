@@ -2,36 +2,51 @@
 
 **Teeka's Garage** is a learning project built with **Angular** that consumes the **Star Wars API (SWAPI)** to display a list of starships and their details.  
 It’s part of a technical exercise inspired by a real front-end developer test from an e-commerce company in Barcelona.  
-The goal is to practice **API integration**, **routing**, **services**, and **clean architecture** while exploring the Star Wars universe 🚀✨.
+The goal is to practice **API integration**, **routing**, **services**, **authentication**, and **clean architecture** while exploring the Star Wars universe 🚀✨.
 
 ---
 
 ## 📖 Project Overview
 
-The main objectives of this project are:
+**Teeka's Garage** recreates the atmosphere of **Tatooine’s starship shop**, run by the famous Jawa **Teeka** from Star Wars.  
+This theme is used to structure and present the different required parts of the **IT Academy Barcelona – Sprint 7** exercise.  
 
-- ✅ Create a base Angular application with a clear, maintainable structure.  
-- 🌐 **Consume the SWAPI** (`https://swapi.dev` / `https://swapi.py4e.com`) to retrieve starship data.  
-- 🧭 Use **Angular Routing** to navigate between a starship list view and a starship detail view.  
-- 🧰 Implement **services** to handle API calls and data flow.  
-- 🛡️ Understand basic **Guards** and **JWT tokens** concepts (for future authentication scenarios).  
-- 📄 Display only the **relevant starship information** on the list page (name + model), to keep the UI clean and simple.  
-- 📸 Load starship images using the **Star Wars Visual Guide**:  
-  `https://starwars-visualguide.com/assets/img/starships/{id}.jpg`  
-- 🔄 Implement **basic pagination** to load additional starships using the `?page=` parameter.
+The sprint requested the following key elements:
 
-> 📝 **Note:** If the SWAPI is unavailable, a mock JSON fallback will be used to ensure the app can still run locally.
+- 🏠 A **Home menu**  
+- 🔐 A **Login page** with **name and email validation**, using a Firebase database as backend  
+- 🚀 A **main page** displaying a **list of starships**, fetched from the **Star Wars API**  
+- 📄 A **detail page** showing the **specifications of a selected starship**, using the same API  
+
+Teeka's Garage implements all these points through an immersive Star Wars–themed interface:
+
+- 🌍 **Home:** A preview of **Tatooine** acts as the entry screen to the experience.  
+- 🛑 **Login:** Styled as an **Imperial control checkpoint**, where users enter their credentials.  
+- 🛠️ **Starships Page:** Teeka welcomes you to her shop and presents a **holographic catalog** of starships.  
+- 📋 **Starship Details Page:** Teeka uses her **data pad** to show the full specs of the selected ship.
+
+---
+
+## 🌌 App Pages & Features
+
+| Page                     | Description                                                                                 |
+|---------------------------|---------------------------------------------------------------------------------------------|
+| 🏠 **Home**               | Introductory screen showing Tatooine and allowing users to navigate into the app.           |
+| 🔐 **Login**              | Simulates an Imperial access panel. Name and email are validated and stored in Firebase.    |
+| 🚀 **Starships**          | Fetches starship data from SWAPI and displays it in a clean holographic catalog UI.        |
+| 📋 **Starship Details**   | Displays detailed information about the selected starship, fetched from the same API.      |
 
 ---
 
 ## 🧰 Technologies & Tools
 
-- Angular 17+ (standalone components, SCSS)  
-- SWAPI – Star Wars API  
-- Star Wars Visual Guide – Image assets  
-- Postman – API testing tool  
-- Git & GitHub – Version control and collaboration  
-- Node.js & npm – Package management & Angular CLI
+- **Angular 20.3.4** (standalone components, SCSS)  
+- **Firebase** – For user data and login validation  
+- **SWAPI – Star Wars API**  
+- **Star Wars Visual Guide** – Image assets  
+- **Postman** – API testing tool  
+- **Git & GitHub** – Version control and collaboration  
+- **Node.js & npm** – Package management & Angular CLI
 
 ---
 
@@ -120,7 +135,7 @@ This will execute unit tests via **Karma**.
 
 ---
 
-## 🧭 Project Structure (planned)
+## 🧭 Project Structure
 
 ```
 src/
@@ -132,21 +147,25 @@ src/
       starships/       ← List & Detail components
     shared/
       ui/              ← Reusable UI components
-  assets/
-    mock/             ← JSON fallback data (if needed)
+  public/
+    img/             ← forced fallback img data (Star Wats Guide is not working)
 ```
 
 ---
 
-## 📌 Notes & Future Steps
-
-- The project will start with a **basic starship list** (name + model).  
-- Later, more features such as detail views, guards, and pagination will be added incrementally.  
-- This README will be updated as the project progresses.
+## 📌 TO DO
+  
+- Further improvements such as guards, more advanced error handling, and UI enhancements can be added.
+- More coherence on graphic design styles and motive.
+- Animations between starships-list and starships-details
+- Responsive design
+- Cleaner code (carousel substitution)
+- This README will be updated as the project evolves.
 
 ---
 
 ## 👨‍💻 Author
 
-**Teeka's Garage** is developed as part of the IT Academy Front-End Bootcamp 🧠💻  
-Barcelona, 2025.
+**Teeka's Garage** is developed as part of the **IT Academy Front-End Bootcamp** 🧠💻  
+
+Arnau Pérez, Barcelona, 2025.
