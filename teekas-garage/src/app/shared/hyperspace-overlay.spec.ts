@@ -1,18 +1,16 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
+import { HyperspaceOverlayComponent } from './hyperspace-overlay';
 
-import { HyperspaceOverlay } from './hyperspace-overlay';
-
-describe('HyperspaceOverlay', () => {
-  let component: HyperspaceOverlay;
-  let fixture: ComponentFixture<HyperspaceOverlay>;
+describe('HyperspaceOverlayComponent', () => {
+  let fixture: ComponentFixture<HyperspaceOverlayComponent>;
+  let component: HyperspaceOverlayComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HyperspaceOverlay]
-    })
-    .compileComponents();
+      imports: [HyperspaceOverlayComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(HyperspaceOverlay);
+    fixture = TestBed.createComponent(HyperspaceOverlayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -20,4 +18,8 @@ describe('HyperspaceOverlay', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // Añade más tests cuando el overlay tenga @Input() show / @Output() done
+  // it('should toggle visibility with @Input() show', () => { ... });
+  // it('should emit done on completion', () => { ... });
 });
