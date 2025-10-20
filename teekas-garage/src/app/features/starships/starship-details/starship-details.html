@@ -59,7 +59,7 @@
                                     @if (starship()?.pilots?.length) {
                                     <ul class="pilots">
                                         @for (p of starship()!.pilots; track p.id) {
-                                        <li>
+                                        <li class="pilot-item">
                                             <img
                                             [src]="p.imageUrl"
                                             alt="Photo of {{ p.name }}"

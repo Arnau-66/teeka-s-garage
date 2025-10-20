@@ -185,9 +185,10 @@
   line-height: 1.05;
 }
 
-
 /* ---------- Responsivo mínimo ---------- */
 @media (max-width: 480px){
   .back-list{ top: 12px; left: 12px; }
   .back-list .sw-btn--list{ padding: .35rem .75rem; border-radius: 12px; }
 }
+
+.pilot-item img { margin-right: 8px; vertical-align: middle; margin-bottom: 8px; }
