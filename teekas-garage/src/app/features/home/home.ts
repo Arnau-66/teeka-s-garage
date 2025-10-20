@@ -30,19 +30,12 @@ export class HomeComponent {
   }
 
   onAuthSuccess() {
-    // oculta textos/CTA
     document.documentElement.classList.add('hide-home-ui');
-
-    // cierra modal y muestra overlay
     this.closeLogin();
     this.hyperspace.set(true);
-
-    // Espera a que Angular pinte <app-hyperspace-overlay> y arráncalo
-    // arrancar la secuencia cuando el overlay existe en el DOM
     queueMicrotask(() => this.overlay?.startAutoSequence());
   }
 
-  // nos lo emite el overlay cuando termina
   onHyperspaceDone() {
     this.router.navigate(['/starships']);
     this.hyperspace.set(false);

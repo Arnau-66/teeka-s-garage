@@ -31,7 +31,6 @@ export class StarshipsListComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { this.fetchPage(1); }
 
   ngAfterViewInit(): void {
-    // aunque el rack esté oculto, mantenemos el centrado por consistencia (no hace nada visible)
     queueMicrotask(() => this.scrollToActive());
   }
 

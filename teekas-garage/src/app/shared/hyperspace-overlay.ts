@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-/** ===== Utilidades y constantes ===== */
 const RAD = Math.PI / 180;
 const randomInRange = (max: number, min: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
@@ -28,7 +27,6 @@ function lerp(current: number, target: number, alpha: number) {
   return current + (target - current) * alpha;
 }
 
-/** ===== Modelo de estrella ===== */
 class Star {
   STATE: {
     alpha: number; angle: number;
@@ -68,7 +66,7 @@ class Star {
 
 const generateStarPool = (n: number) => Array.from({ length: n }, () => new Star());
 
-/** ===== Componente ===== */
+
 @Component({
   selector: 'app-hyperspace-overlay',
   standalone: true,
@@ -97,7 +95,7 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
   private rafId: number | null = null;
   private stars: Star[] = generateStarPool(300);
 
-  /** Estado interpolado (sustituye GSAP) */
+  
   private velocity = VELOCITY_INC;
   private velocityTarget = VELOCITY_INC;
   private sizeInc = SIZE_INC;
@@ -113,7 +111,7 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
 
   constructor(private zone: NgZone) {}
 
-  /* ================= Ciclo de vida ================ */
+  
   ngAfterViewInit() {
     this.ctx = this.cv.nativeElement.getContext('2d')!;
     this.fitCanvas();
@@ -126,19 +124,16 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
     window.removeEventListener('resize', this.onResize);
   }
 
-  /* ================= API pública ================== */
-  /** Secuencia automática (para dispararla desde Home). */
+ 
   startAutoSequence() {
     this.flash = false;
     this.initiate();
-    // simula mantener >600ms y “soltar”
     setTimeout(() => this.enter(), 700);
   }
 
-  /** Botón manual */
+
   engage() { this.startAutoSequence(); }
 
-  /* ================= Lógica de render ============= */
   private startLoop() {
     this.zone.runOutsideAngular(() => {
       const tick = () => {
@@ -180,30 +175,28 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
     const w = this.cv.nativeElement.width / (window.devicePixelRatio || 1);
     const h = this.cv.nativeElement.height / (window.devicePixelRatio || 1);
 
-    // Interpola hacia los targets
+ 
     this.velocity = lerp(this.velocity, this.velocityTarget, 0.18);
     this.sizeInc = lerp(this.sizeInc, this.sizeIncTarget, 0.18);
     this.bgAlpha = lerp(this.bgAlpha, this.bgAlphaTarget, 0.18);
 
-    // Limpia
     ctx.clearRect(0, 0, w, h);
 
-    // Fondo tintado (azulado) durante la animación
     if (this.bgAlpha > 0.001) {
       ctx.fillStyle = `rgba(31, 58, 157, ${this.bgAlpha})`;
       ctx.fillRect(0, 0, w, h);
     }
 
-    // Introducir nuevas estrellas de una en una
+    
     const nonActive = this.stars.filter(s => !s.STATE.active);
     if (!this.initiating && nonActive.length > 0) nonActive[0].STATE.active = true;
 
-    // Dibujo y actualización por estrella
+    
     ctx.lineCap = 'round';
     for (const star of this.stars.filter(s => s.STATE.active)) {
       const { active, x, y, iX, iY, iVX, iVY, size, vX, vY } = star.STATE;
 
-      // Si sale fuera (línea u origen) y no estamos “initiating”, resetea
+      
       const baseX = (iX ?? x);
       const baseY = (iY ?? y);
       if ((baseX < 0 || baseX > w || baseY < 0 || baseY > h) && active && !this.initiating) {
@@ -211,7 +204,7 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
         continue;
       }
 
-      // ✅ NO incrementes iX/iY si son undefined (evita saltos desde (0,0))
+      
       const newIX = this.initiating
         ? iX
         : (iX !== undefined && iVX !== undefined) ? iX + iVX : iX;
@@ -223,12 +216,12 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
       const newX = x + vX;
       const newY = y + vY;
 
-      // Sólo calculamos “caught” cuando hay iX/iY definidos
+      
       const caughtX = (newIX !== undefined) && ((vX < 0 && newIX < x) || (vX > 0 && newIX > x));
       const caughtY = (newIY !== undefined) && ((vY < 0 && newIY < y) || (vY > 0 && newIY > y));
       const caught = caughtX || caughtY;
 
-      // Limita tamaño para evitar “saltos gordos” al final
+      
       const nextSize = this.initiating
         ? size
         : size * ((iX !== undefined || iY !== undefined) ? SIZE_INC : this.sizeInc);
@@ -247,7 +240,7 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
         size: cappedSize,
       };
 
-      // Color (warp arcoíris sólo durante jumping)
+      
       let color = `rgba(255,255,255,${star.STATE.alpha})`;
       if (this.jumping) {
         const [r, g, b] = WARP_COLORS[randomInRange(0, WARP_COLORS.length - 1)];
@@ -256,7 +249,6 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
       ctx.strokeStyle = color;
       ctx.lineWidth = star.STATE.size;
 
-      // ✅ Si iX/iY no existen, empieza el trazo desde la posición actual (x,y)
       const fromX = (star.STATE.iX !== undefined) ? star.STATE.iX : star.STATE.x;
       const fromY = (star.STATE.iY !== undefined) ? star.STATE.iY : star.STATE.y;
 
@@ -269,7 +261,6 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  /* ================= Acciones de animación ================ */
   private setTargets(t: Partial<{ velocity: number; bgAlpha: number; sizeInc: number }>) {
     if (t.velocity !== undefined) this.velocityTarget = t.velocity;
     if (t.bgAlpha !== undefined) this.bgAlphaTarget = t.bgAlpha;
@@ -282,7 +273,6 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
     this.initiateTimestamp = Date.now();
     this.setTargets({ velocity: VELOCITY_INIT_INC, bgAlpha: 0.3 });
 
-    // Fijar origen inicial para trazar líneas largas
     for (const star of this.stars.filter(s => s.STATE.active)) {
       star.STATE = {
         ...star.STATE,
@@ -295,18 +285,17 @@ export class HyperspaceOverlayComponent implements AfterViewInit, OnDestroy {
   }
 
   private jump() {
-    this.bgAlpha = 0; // reinicia tinte
+    this.bgAlpha = 0;
     this.setTargets({ velocity: JUMP_VELOCITY_INC, bgAlpha: 0.75, sizeInc: JUMP_SIZE_INC });
     this.jumping = true;
 
-    // Flash blanco casi al final
     setTimeout(() => (this.flash = true), Math.max(0, this.durationMs - 200));
 
     setTimeout(() => {
       this.jumping = false;
       this.flash = false;
       this.setTargets({ bgAlpha: 0, velocity: VELOCITY_INC, sizeInc: SIZE_INC });
-      this.done.emit(); // avisamos a Home que terminó
+      this.done.emit();
     }, this.durationMs);
   }
 
