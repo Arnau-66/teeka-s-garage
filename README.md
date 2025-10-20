@@ -57,7 +57,7 @@ Teeka's Garage implements all these points through an immersive Star Wars–them
 - **Angular 20.3.4** (standalone components, SCSS)  
 - **Firebase** – For user data and login validation  
 - **SWAPI – Star Wars API**  
-- **Star Wars Visual Guide** – Image assets  
+- **Wookieepedia** – Image assets  
 - **Postman** – API testing tool  
 - **Git & GitHub** – Version control and collaboration  
 - **Node.js & npm** – Package management & Angular CLI
